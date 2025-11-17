@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Zelora – Sustainable Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- NAVBAR -->
+<nav class="bg-white shadow">
+    <div class="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
+
+        <!-- Logo -->
+        <a href="/" class="text-3xl font-bold text-green-800">Zelora</a>
+
+        <!-- Desktop Search -->
+        <form action="/search" method="get"
+              class="hidden md:flex w-1/2 mx-6">
+            <input name="q" type="search" placeholder="Search sustainable clothing..."
+                   class="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none">
+            <button type="submit"
+                    class="bg-green-700 text-white px-4 rounded-r-md">
+                Search
+            </button>
+        </form>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex gap-4 items-center">
+
+            <div th:unless="${loggedIn}">
+                <a href="/login" class="text-gray-700 hover:text-green-700">Sign In</a>
+                <a href="/register" class="text-gray-700 hover:text-green-700">Register</a>
+            </div>
+
+            <div th:if="${loggedIn}">
+                <a href="/profile" class="text-gray-700 hover:text-green-700">My Profile</a>
+                <a href="/orders" class="text-gray-700 hover:text-green-700">My Orders</a>
+                <a href="/logout" class="text-gray-700 hover:text-green-700">Logout</a>
+            </div>
+
+        </div>
+
+        <!-- Burger button -->
+        <button id="menu-btn" class="text-gray-700 block md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- MOBILE DROPDOWN -->
+    <div id="mobile-menu"
+         class="hidden flex-col bg-white shadow-lg px-6 pb-4 md:hidden">
+
+        <div th:unless="${loggedIn}">
+            <a href="/login" class="block py-2 text-gray-700 hover:text-green-700">Sign In</a>
+            <a href="/register" class="block py-2 text-gray-700 hover:text-green-700">Register</a>
+        </div>
+
+        <div th:if="${loggedIn}">
+            <a href="/profile" class="block py-2 text-gray-700 hover:text-green-700">My Profile</a>
+            <a href="/orders" class="block py-2 text-gray-700 hover:text-green-700">My Orders</a>
+            <a href="/logout" class="block py-2 text-gray-700 hover:text-green-700">Logout</a>
+        </div>
+
+    </div>
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+    });
+</script>
+
+<!-- IMAGE SLIDER -->
+<div class="relative w-full h-[420px] overflow-hidden">
+
+    <!-- Slides Wrapper -->
+    <div id="slider" class="flex transition-transform duration-700 ease-in-out">
+
+        <!-- Slide 1 -->
+        <div class="w-full h-[420px] flex-shrink-0 relative">
+            <img src="/images/general/hero1.png" class="w-full h-full object-cover">
+            <div class="absolute top-1/3 left-12 text-white">
+                <h2 class="text-4xl font-bold drop-shadow-lg">Sustainable Fashion Starts Here</h2>
+                <p class="mt-2 text-lg drop-shadow-lg">Eco-friendly Irish-designed clothing.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="w-full h-[420px] flex-shrink-0 relative">
+            <img src="/images/general/hero2.png" class="w-full h-full object-cover">
+            <div class="absolute top-1/3 left-12 text-white">
+                <h2 class="text-4xl text-white font-bold drop-shadow-lg">Made for a Greener Tomorrow</h2>
+                <p class="mt-2 text-lg drop-shadow-lg">Premium ethical fabrics. Low-waste design.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="w-full h-[420px] flex-shrink-0 relative">
+            <img src="/images/general/hero3.png" class="w-full h-full object-cover">
+            <div class="absolute top-1/3 left-12 text-white">
+                <h2 class="text-4xl text-white font-bold drop-shadow-lg">Family focused business</h2>
+                <p class="mt-2 text-lg drop-shadow-lg">Best prices for all ages.</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    const slider = document.getElementById("slider");
+    let index = 0;
+
+    function nextSlide() {
+        index = (index + 1) % 3;
+        slider.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    setInterval(nextSlide, 4000);
+</script>
+
+
+
+<!-- CATEGORY -->
+<section class="max-w-7xl mx-auto mt-10 px-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Shop by Category</h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+            <img src="/images/general/women.png" class="w-full h-36 object-cover rounded">
+            <p class="mt-3 text-center font-semibold">Women</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+            <img src="/images/general/men.png" class="w-full h-36 object-cover rounded">
+            <p class="mt-3 text-center font-semibold">Men</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+            <img src="/images/general/accessories.png" class="w-full h-36 object-cover rounded">
+            <p class="mt-3 text-center font-semibold">Accessories</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+            <img src="/images/general/eco.png" class="w-full h-36 object-cover rounded">
+            <p class="mt-3 text-center font-semibold">Eco Essentials</p>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- FEATURED PRODUCTS -->
+<section class="max-w-7xl mx-auto mt-12 px-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Featured Products</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
+             th:each="product : ${products}">
+
+            <img th:src="${product.thumbUrl}"
+                 class="w-full h-56 object-cover">
+
+            <div class="p-4">
+                <h3 class="text-lg font-semibold" th:text="${product.name}"></h3>
+                <p class="text-gray-600 mt-1" th:text="${product.description}"></p>
+                <p class="text-green-700 font-bold text-xl mt-2">
+                    €<span th:text="${product.price}"></span>
+                </p>
+            </div>
+
+            <div class="p-4 pt-0">
+                <a href="#"
+                   class="block bg-green-700 text-white text-center py-2 rounded hover:bg-green-800">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- BRAND STORY SECTION -->
+<section class="bg-green-800 text-white mt-20 py-16">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+
+        <h2 class="text-3xl font-bold mb-4">Our Story</h2>
+
+        <p class="text-lg leading-relaxed">
+            Founded in 2025, Zelora is a sustainable online clothing brand based in Ireland,
+            created to celebrate local craftsmanship while promoting an eco-conscious lifestyle.
+            Our collections are crafted with ethically sourced materials, designed for longevity,
+            and made for modern, style-driven consumers across Ireland and Europe.
+        </p>
+    </div>
+</section>
+
+</body>
+</html>
