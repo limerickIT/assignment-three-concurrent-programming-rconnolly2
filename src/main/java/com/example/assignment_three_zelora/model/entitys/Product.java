@@ -20,8 +20,7 @@ public class Product implements Serializable {
     
     @Column(name = "product_name")
     private String productName;
-   
-    @Lob
+
     @Column(name = "description")
     private String description;
     
