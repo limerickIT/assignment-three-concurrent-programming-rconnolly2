@@ -2,94 +2,98 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body class="bg-light">
+<div th:replace="fragments/navbar::navbar"></div>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
+<div class="flex justify-center items-start mt-16 px-4">
+    <div class="w-full max-w-md bg-white shadow-md rounded-lg p-6">
 
-            <div class="card shadow-sm">
-                <div class="card-body">
+        <h3 class="text-center text-2xl font-semibold mb-6">Create Account</h3>
 
-                    <h3 class="text-center mb-4">Create Account</h3>
+        <form method="post" th:action="@{/register}" th:object="${customer}" class="space-y-4">
 
-                    <form method="post" th:action="@{/register}" th:object="${customer}">
-
-                        <div class="mb-3">
-                            <label>First Name</label>
-                            <input class="form-control" th:field="*{firstName}">
-                            <div class="text-danger small" th:errors="*{firstName}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Last Name</label>
-                            <input class="form-control" th:field="*{lastName}">
-                            <div class="text-danger small" th:errors="*{lastName}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input class="form-control" type="email" th:field="*{email}">
-                            <div class="text-danger small" th:errors="*{email}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input class="form-control" type="password" th:field="*{passwordHash}">
-                            <div class="text-danger small" th:errors="*{passwordHash}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Phone</label>
-                            <input class="form-control" th:field="*{phone}">
-                            <div class="text-danger small" th:errors="*{phone}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Address</label>
-                            <input class="form-control" th:field="*{address}">
-                            <div class="text-danger small" th:errors="*{address}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>City</label>
-                            <input class="form-control" th:field="*{city}">
-                            <div class="text-danger small" th:errors="*{city}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Country</label>
-                            <input class="form-control" th:field="*{country}">
-                            <div class="text-danger small" th:errors="*{country}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Postcode</label>
-                            <input class="form-control" th:field="*{postcode}">
-                            <div class="text-danger small" th:errors="*{postcode}"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>
-                                <input type="checkbox" th:field="*{marketingOptIn}">
-                                Receive marketing emails
-                            </label>
-                            <div class="text-danger small" th:errors="*{marketingOptIn}"></div>
-                        </div>
-
-                        <button class="btn btn-warning w-100">Register</button>
-
-                    </form>
-
-                </div>
+            <div>
+                <label class="block text-gray-700 mb-1">First Name</label>
+                <input th:field="*{firstName}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{firstName}"></div>
             </div>
 
-        </div>
+            <div>
+                <label class="block text-gray-700 mb-1">Last Name</label>
+                <input th:field="*{lastName}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{lastName}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Email</label>
+                <input type="email" th:field="*{email}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{email}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Password</label>
+                <input type="password" th:field="*{password}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{password}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Date of Birth</label>
+                <input type="date" th:field="*{dateOfBirth}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{dateOfBirth}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Phone Number</label>
+                <input th:field="*{phoneNumber}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{phoneNumber}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Address</label>
+                <input th:field="*{address}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{address}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">City</label>
+                <input th:field="*{city}"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none" />
+                <div class="text-red-600 text-sm" th:errors="*{city}"></div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Communication Method</label>
+                <select th:field="*{communicationPreferences}"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 outline-none">
+                    <option value="SMS">SMS</option>
+                    <option value="Email">Email</option>
+                    <option value="Telegram">Telegram</option>
+                    <option value="Carrier Pigeon">Carrier Pigeon</option>
+                </select>
+                <div class="text-red-600 text-sm" th:errors="*{communicationPreferences}"></div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-green-700 text-white py-2 rounded-md hover:bg-green-800 transition">
+                Register
+            </button>
+
+        </form>
     </div>
 </div>
+
+<div th:replace="fragments/footer::footer"></div>
 
 </body>
 </html>

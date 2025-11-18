@@ -3,83 +3,13 @@
 <head>
     <title>Zelora – Sustainable Fashion</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body class="bg-gray-100">
 
 <!-- NAVBAR -->
-<nav class="bg-white shadow">
-    <div class="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
-
-        <!-- Logo -->
-        <a href="/" class="text-3xl font-bold text-green-800">Zelora</a>
-
-        <!-- Desktop Search -->
-        <form action="/search" method="get"
-              class="hidden md:flex w-1/2 mx-6">
-            <input name="q" type="search" placeholder="Search sustainable clothing..."
-                   class="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none">
-            <button type="submit"
-                    class="bg-green-700 text-white px-4 rounded-r-md">
-                Search
-            </button>
-        </form>
-
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex gap-4 items-center">
-
-            <div th:unless="${loggedIn}">
-                <a href="/login" class="text-gray-700 hover:text-green-700">Sign In</a>
-                <a href="/register" class="text-gray-700 hover:text-green-700">Register</a>
-            </div>
-
-            <div th:if="${loggedIn}">
-                <a href="/profile" class="text-gray-700 hover:text-green-700">My Profile</a>
-                <a href="/orders" class="text-gray-700 hover:text-green-700">My Orders</a>
-                <a href="/logout" class="text-gray-700 hover:text-green-700">Logout</a>
-            </div>
-
-        </div>
-
-        <!-- Burger button -->
-        <button id="menu-btn" class="text-gray-700 block md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-
-    </div>
-
-    <!-- MOBILE DROPDOWN -->
-    <div id="mobile-menu"
-         class="hidden flex-col bg-white shadow-lg px-6 pb-4 md:hidden">
-
-        <div th:unless="${loggedIn}">
-            <a href="/login" class="block py-2 text-gray-700 hover:text-green-700">Sign In</a>
-            <a href="/register" class="block py-2 text-gray-700 hover:text-green-700">Register</a>
-        </div>
-
-        <div th:if="${loggedIn}">
-            <a href="/profile" class="block py-2 text-gray-700 hover:text-green-700">My Profile</a>
-            <a href="/orders" class="block py-2 text-gray-700 hover:text-green-700">My Orders</a>
-            <a href="/logout" class="block py-2 text-gray-700 hover:text-green-700">Logout</a>
-        </div>
-
-    </div>
-</nav>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuBtn = document.getElementById("menu-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-    });
-</script>
+<div th:replace="fragments/navbar::navbar"></div>
 
 <!-- IMAGE SLIDER -->
 <div class="relative w-full h-[420px] overflow-hidden">
@@ -154,10 +84,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <div class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
-             th:each="product : ${products}">
+             th:each="product : ${new_products}">
 
-            <img th:src="${product.featureImage}"
-                 class="w-full h-56 object-cover">
+            <img class="w-full h-56 object-cover" th:src="@{/images/thumbs/{product_id}/{photo}(product_id=${product.productId}, photo=${product.featureImage})}">
 
             <div class="p-4">
                 <h3 class="text-lg font-semibold" th:text="${product.productName}"></h3>
@@ -178,22 +107,52 @@
     </div>
 </section>
 
+<!-- DISCOUNTED PRODUCTS -->
+<section class="max-w-7xl mx-auto mt-12 px-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Discounted Products</h2>
 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-<!-- BRAND STORY SECTION -->
-<section class="bg-green-800 text-white mt-20 py-16">
-    <div class="max-w-5xl mx-auto px-6 text-center">
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
+             th:each="product : ${discounted_products}">
 
-        <h2 class="text-3xl font-bold mb-4">Our Story</h2>
+            <img class="w-full h-56 object-cover" th:src="@{/images/thumbs/{product_id}/{photo}(product_id=${product.productId}, photo=${product.featureImage})}">
 
-        <p class="text-lg leading-relaxed">
-            Founded in 2025, Zelora is a sustainable online clothing brand based in Ireland,
-            created to celebrate local craftsmanship while promoting an eco-conscious lifestyle.
-            Our collections are crafted with ethically sourced materials, designed for longevity,
-            and made for modern, style-driven consumers across Ireland and Europe.
-        </p>
+            <div class="p-4">
+                <h3 class="text-lg font-semibold" th:text="${product.productName}"></h3>
+                <p class="text-gray-600 mt-1" th:text="${product.description}"></p>
+
+                <div class="flex items-center gap-2 mt-2">
+
+                    <span class="text-gray-500 line-through text-lg">
+                        €<span th:text="${product.price}"></span>
+                    </span>
+
+                    <span class="bg-red-600 text-white text-sm font-bold px-2 py-1 rounded">
+                        -<span th:text="${100 - (product.discountedPrice / product.price * 100)}"></span>%
+                    </span>
+
+                    <span class="text-green-700 font-bold text-2xl">
+                        €<span th:text="${product.discountedPrice}"></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="p-4 pt-0">
+                <a href="#"
+                   class="block bg-green-700 text-white text-center py-2 rounded hover:bg-green-800">
+                    View Details
+                </a>
+            </div>
+        </div>
+
     </div>
 </section>
+
+
+
+<!-- FOOTER -->
+<div th:replace="fragments/footer::footer"></div>
 
 </body>
 </html>

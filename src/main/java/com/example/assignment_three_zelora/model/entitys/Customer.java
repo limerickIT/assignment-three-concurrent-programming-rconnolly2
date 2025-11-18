@@ -1,8 +1,12 @@
 package com.example.assignment_three_zelora.model.entitys;
 
+import com.example.assignment_three_zelora.validators.UniqueEmail;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -12,32 +16,38 @@ import java.util.List;
 public class Customer implements Serializable {
 
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private Integer customerId;
-    
+
+    @NotBlank(message = "First name is required")
     @Column(name = "first_name")
     private String firstName;
-   
+
+    @NotBlank(message = "Last name is required")
     @Column(name = "last_name")
     private String lastName;
-    
+
+    @UniqueEmail(message = "Email is already in use")
     @Column(name = "email")
     private String email;
-   
+
+    @NotBlank(message = "Password is required")
     @Column(name = "password")
     private String password;
-   
+
+    @NotBlank(message = "Address is required")
     @Lob
     @Column(name = "address")
     private String address;
-   
+
+    @NotBlank(message = "Phone number is required")
     @Column(name = "phone_number")
     private String phoneNumber;
-   
+
+    @NotNull(message = "Date of birth is required")
     @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     
     @Column(name = "payment_info")
     private String paymentInfo;
@@ -48,15 +58,16 @@ public class Customer implements Serializable {
     
     @Column(name = "vip_status")
     private String vipStatus;
-    
+
+    @NotBlank(message = "Communication preferences is required")
     @Lob
     @Column(name = "communication_preferences")
     private String communicationPreferences;
    
     @Column(name = "dateJoined")
-    @Temporal(TemporalType.DATE)
     private Date dateJoined;
-   
+
+    @NotBlank(message = "City is required")
     @Column(name = "city")
     private String city;
    
@@ -69,7 +80,7 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customerId")
     private List<Orders> ordersList;
 
-    public Customer(Integer customerId, String firstName, String lastName, String email, String password, String address, String phoneNumber, Date dateOfBirth, String paymentInfo, String sizePreferences, String vipStatus, String communicationPreferences, Date dateJoined, String city, List<Review> reviewList, List<Wishlist> wishlistList, List<Orders> ordersList) {
+    public Customer(Integer customerId, String firstName, String lastName, String email, String password, String address, String phoneNumber, LocalDate dateOfBirth, String paymentInfo, String sizePreferences, String vipStatus, String communicationPreferences, Date dateJoined, String city, List<Review> reviewList, List<Wishlist> wishlistList, List<Orders> ordersList) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -120,7 +131,7 @@ public class Customer implements Serializable {
         return this.phoneNumber;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return this.dateOfBirth;
     }
 
@@ -188,7 +199,7 @@ public class Customer implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

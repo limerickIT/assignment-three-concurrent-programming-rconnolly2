@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.assignment_three_zelora.model.entitys.Customer;
 import com.example.assignment_three_zelora.model.service.CustomerService;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Controller
 public class AuthController {
 
@@ -35,8 +38,9 @@ public class AuthController {
             return "redirect:/home";
         }
 
-        if (foundCustomer == null || !foundCustomer.getPassword().equals(password)) {
+        if (foundCustomer == null || !passwordEncoder.matches(password, foundCustomer.getPassword())) {
             model.addAttribute("error", "The email or password provided are incorrect");
+            return "login";
         }
 
         // I save current user session
@@ -70,6 +74,7 @@ public class AuthController {
         String hashed = passwordEncoder.encode(customer.getPassword());
         customer.setPassword(hashed);
 
+        customer.setDateJoined(Date.from(Instant.now()));
         customerService.createCustomer(customer);
 
         return "redirect:/login";
