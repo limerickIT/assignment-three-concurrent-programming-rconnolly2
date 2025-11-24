@@ -1,4 +1,4 @@
-package com.example.assignment_three_zelora.repository;
+package com.example.assignment_three_zelora.model.repos;
 
 import com.example.assignment_three_zelora.model.entitys.Product;
 import com.example.assignment_three_zelora.model.entitys.Category;

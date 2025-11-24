@@ -35,9 +35,9 @@
             <!-- When logged in -->
             <div th:if="${loggedIn}" class="flex gap-6 items-center">
 
-                <a href="/profile" class="flex items-center gap-2 text-gray-700 hover:text-green-700">
+                <a href="/account" class="flex items-center gap-2 text-gray-700 hover:text-green-700">
                     <i class="fa-solid fa-user"></i>
-                    <span>My Profile</span>
+                    <span>My Account</span>
                 </a>
 
                 <a href="/orders" class="flex items-center gap-2 text-gray-700 hover:text-green-700">
@@ -82,9 +82,9 @@
         </div>
 
         <div th:if="${loggedIn}">
-            <a href="/profile" class="flex items-center gap-2 py-2 text-gray-700 hover:text-green-700">
+            <a href="/account" class="flex items-center gap-2 py-2 text-gray-700 hover:text-green-700">
                 <i class="fa-solid fa-user"></i>
-                <span>My Profile</span>
+                <span>My Account</span>
             </a>
 
             <a href="/orders" class="flex items-center gap-2 py-2 text-gray-700 hover:text-green-700">

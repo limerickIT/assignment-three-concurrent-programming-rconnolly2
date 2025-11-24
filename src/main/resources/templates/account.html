@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100">
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-6xl mx-auto mt-10 px-4">
+    <h2 class="text-3xl font-bold mb-8">Your Account</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- My Profile -->
+        <a href="/profile" class="bg-white shadow-md rounded-lg p-5 flex items-center space-x-4 hover:shadow-lg transition">
+            <i class="fa-solid fa-user text-4xl text-green-700"></i>
+            <div>
+                <h3 class="text-xl font-semibold">Your Profile</h3>
+                <p class="text-gray-500 text-sm">View or edit your personal information</p>
+            </div>
+        </a>
+
+        <!-- Wishlist -->
+        <a href="/wishlist" class="bg-white shadow-md rounded-lg p-5 flex items-center space-x-4 hover:shadow-lg transition">
+            <i class="fa-solid fa-heart text-4xl text-green-700"></i>
+            <div>
+                <h3 class="text-xl font-semibold">Your Wishlist</h3>
+                <p class="text-gray-500 text-sm">View products you've saved</p>
+            </div>
+        </a>
+
+        <!-- Orders -->
+        <a href="/orders" class="bg-white shadow-md rounded-lg p-5 flex items-center space-x-4 hover:shadow-lg transition">
+            <i class="fa-solid fa-box text-4xl text-green-700"></i>
+            <div>
+                <h3 class="text-xl font-semibold">My Orders</h3>
+                <p class="text-gray-500 text-sm">Track, return or view order history</p>
+            </div>
+        </a>
+
+        <!-- Reviews -->
+        <a href="/reviews" class="bg-white shadow-md rounded-lg p-5 flex items-center space-x-4 hover:shadow-lg transition">
+            <i class="fa-solid fa-star text-4xl text-green-700"></i>
+            <div>
+                <h3 class="text-xl font-semibold">Your Reviews</h3>
+                <p class="text-gray-500 text-sm">Manage your product reviews</p>
+            </div>
+        </a>
+
+        <!-- Addresses -->
+        <a href="/addresses" class="bg-white shadow-md rounded-lg p-5 flex items-center space-x-4 hover:shadow-lg transition">
+            <i class="fa-solid fa-location-dot text-4xl text-green-700"></i>
+            <div>
+                <h3 class="text-xl font-semibold">Your Addresses</h3>
+                <p class="text-gray-500 text-sm">Manage your saved addresses</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+</html>
