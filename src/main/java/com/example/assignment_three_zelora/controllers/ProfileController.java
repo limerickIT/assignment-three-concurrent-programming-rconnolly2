@@ -3,15 +3,12 @@ package com.example.assignment_three_zelora.controllers;
 import com.example.assignment_three_zelora.model.entitys.Address;
 import com.example.assignment_three_zelora.model.entitys.Customer;
 import com.example.assignment_three_zelora.model.entitys.Wishlist;
-import com.example.assignment_three_zelora.model.service.AddressService;
-import com.example.assignment_three_zelora.model.service.ReviewService;
-import com.example.assignment_three_zelora.model.service.WishlistService;
+import com.example.assignment_three_zelora.model.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.assignment_three_zelora.model.service.CustomerService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -28,6 +25,10 @@ public class ProfileController {
 
     @Autowired
     private WishlistService wishlistService;
+
+    @Autowired
+    private OrdersService ordersService;
+
 
     @GetMapping("/account")
     public String accountPage(Model model, HttpSession session) {
@@ -255,5 +256,28 @@ public class ProfileController {
 
         redirect.addFlashAttribute("success", "Wish updated successfully.");
         return "redirect:/wishlist";
+    }
+
+    @GetMapping("/orders")
+    public String ordersPage(@RequestParam(required = false) String status, Model model, HttpSession session) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer == null) {
+            return "redirect:/login";
+        }
+
+        var orders = ordersService.getOrdersByCustomer(customer);
+
+        if (status != null) {
+            orders = orders.stream()
+                    .filter(o -> o.getOrderStatus().equalsIgnoreCase(status))
+                    .toList();
+        }
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("orders", orders);
+        model.addAttribute("status", status);
+
+        return "orders";
     }
 }

@@ -3,7 +3,6 @@ package com.example.assignment_three_zelora.model.service;
 import com.example.assignment_three_zelora.model.entitys.Wishlist;
 import com.example.assignment_three_zelora.model.repos.WishlistRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.dataTables.css">
+    <script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+</head>
+
+<body class="bg-gray-50">
+
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-6xl mx-auto mt-10 px-4">
+
+    <div class="text-sm text-gray-600 mb-4"><a href="/account" class="hover:underline text-green-700">Your Account</a><span>›</span><span class="font-semibold text-black">Your Orders</span></div>
+
+    <h1 class="text-3xl font-semibold mb-6">Your Orders</h1>
+
+    <div class="flex gap-8 mb-6 border-b pb-2 text-lg">
+        <a href="/orders" th:classappend="${status == null} ? 'font-bold border-b-2 border-green-500' : 'text-green-700 hover:underline'">Orders</a>
+        <a href="/orders?status=delivered" th:classappend="${status == 'delivered'} ? 'font-bold border-b-2 border-green-500' : 'text-green-700 hover:underline'">Buy Again</a>
+        <a href="/orders?status=processing" th:classappend="${status == 'processing'} ? 'font-bold border-b-2 border-green-500' : 'text-green-700 hover:underline'">Not Yet Dispatched</a>
+    </div>
+
+    <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6">
+
+        <table id="ordersTable" class="display w-full text-sm border border-gray-300 rounded-md">
+            <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2">Order</th>
+                <th class="px-4 py-2">Items</th>
+                <th class="px-4 py-2 text-center">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td class="px-4 py-4 w-64 align-top">
+                    <div class="text-sm">
+                        <div class="font-semibold">Order #<span th:text="${o.orderId}"></span></div>
+                        <div class="mt-1">Placed: <span th:text="${#dates.format(o.orderDate, 'yyyy-MM-dd')}"></span></div>
+
+                        <div class="mt-1">
+                            Status:
+                            <span th:text="${o.orderStatus}"
+                                  th:classappend="${o.orderStatus.toLowerCase() == 'delivered'} ? ' text-green-600 font-bold' :
+                                                  (${o.orderStatus.toLowerCase() == 'shipped'} ? ' text-blue-600 font-bold' :
+                                                  (${o.orderStatus.toLowerCase() == 'processing'} ? ' text-orange-600 font-bold' : ''))">
+                            </span>
+                        </div>
+
+                        <div class="mt-1">Total: €<span th:text="${o.totalAmount}"></span></div>
+                        <div class="mt-1" th:if="${o.deliveryDate != null}">Delivery: <span th:text="${#dates.format(o.deliveryDate, 'yyyy-MM-dd')}"></span></div>
+                    </div>
+                </td>
+
+                <td class="px-4 py-4 align-top">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-4" th:each="item : ${o.orderitemList}">
+                            <img th:src="@{/images/thumbs/{id}/{img}(id=${item.productId.productId}, img=${item.productId.featureImage})}" class="w-20 h-20 object-cover rounded border">
+                            <div>
+                                <a th:href="@{'/product/' + ${item.productId.productId}}" class="text-green-700 font-medium hover:underline" th:text="${item.productId.productName}"></a>
+                                <div class="text-gray-600 text-sm mt-1">Qty: <span th:text="${item.quantity}"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="px-4 py-4 text-center w-40 align-middle">
+                    <div class="flex flex-col gap-3">
+
+                        <a th:unless="${o.orderStatus.toLowerCase() == 'delivered'}" th:href="@{'/product/' + ${o.orderitemList[0].productId.productId}}" class="text-green-700 hover:text-green-900"><i class="fa-solid fa-box-open mr-1"></i> View item</a>
+
+                        <a th:if="${o.orderStatus.toLowerCase() == 'delivered'}" th:href="@{'/product/' + ${o.orderitemList[0].productId.productId}}" class="text-blue-700 hover:text-blue-900"><i class="fa-solid fa-pen-to-square mr-1"></i> Write a review</a>
+
+                        <a th:if="${o.orderStatus.toLowerCase() == 'delivered'}" href="#" class="text-orange-700 hover:text-orange-900"><i class="fa-solid fa-rotate-right mr-1"></i> Buy again</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    new DataTable("#ordersTable", {
+        columnDefs: [
+            { orderable: false, targets: [1, 2] }
+        ],
+        layout: {
+            topStart: [ { search: { placeholder: 'Search orders...' } } ],
+            topEnd: {
+                pageLength: {
+                    menu: [5, 10, 25, 50],
+                    label: 'orders per page'
+                }
+            },
+            bottomStart: { info: {} },
+            bottomEnd: { paging: { buttons: 3 } }
+        },
+        language: {
+            lengthMenu: "Show _MENU_ orders per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ orders",
+            search: "",
+            emptyTable: "You have no orders yet",
+            zeroRecords: "No matching orders found"
+        }
+    });
+</script>
+
+<div th:replace="fragments/snackbar::snackbar"></div>
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+</html>
