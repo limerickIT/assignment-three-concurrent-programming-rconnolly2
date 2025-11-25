@@ -4,11 +4,11 @@
     <title>Your Reviews</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.dataTables.css">
+    <script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
 </head>
 
 <body class="bg-gray-50">
@@ -27,14 +27,14 @@
 
     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
 
-        <table id="reviewsTable" class="display w-full text-sm border border-gray-300 rounded-md overflow-hidden">
+        <table id="reviewsTable" class="display w-full text-sm border border-gray-300 rounded-md">
             <thead class="bg-gray-100 border-b border-gray-300">
             <tr>
-                <th class="px-4 py-2 text-left">Product</th>
-                <th class="px-4 py-2 text-left">Rating</th>
-                <th class="px-4 py-2 text-left">Review</th>
-                <th class="px-4 py-2 text-left">Date</th>
-                <th class="px-4 py-2 text-center">Actions</th>
+                <th class="px-4 py-2">Product</th>
+                <th class="px-4 py-2">Rating</th>
+                <th class="px-4 py-2">Review</th>
+                <th class="px-4 py-2">Date</th>
+                <th class="px-4 py-2 no-sort" style="text-align:center;">Actions</th>
             </tr>
             </thead>
 
@@ -72,16 +72,40 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        new DataTable("#reviewsTable", {
-            perPage: 5,
-            perPageSelect: [5, 10, 20],
-            searchable: true,
-            sortable: true,
-            layout: {
-                topStart: null
+    const dt = new DataTable("#reviewsTable", {
+        columnDefs: [
+            { orderable: false, targets: "no-sort" }
+        ],
+        layout: {
+            topStart: [
+                {
+                    search: {
+                        placeholder: 'Search reviews...'
+                    }
+                }
+            ],
+            topEnd: {
+                pageLength: {
+                    menu: [5, 10, 25, 50]
+                }
+            },
+            bottomEnd: {
+                paging: {
+                    buttons: 3
+                }
             }
-        });
+        },
+        language: {
+            lengthMenu: "Show _MENU_ reviews per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ reviews",
+            infoEmpty: "No reviews found",
+            infoFiltered: "(filtered from _MAX_ total reviews)",
+            zeroRecords: "No matching review found",
+            paginate: {
+                previous: "Prev",
+                next: "Next"
+            }
+        }
     });
 </script>
 
