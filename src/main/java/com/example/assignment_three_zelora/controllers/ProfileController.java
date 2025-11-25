@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.assignment_three_zelora.model.service.CustomerService;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -84,5 +85,26 @@ public class ProfileController {
         model.addAttribute("reviews", reviewService.getReviewsByCustomerId(customer.getCustomerId()));
 
         return "reviews";
+    }
+
+    @GetMapping("/review/delete/{id}")
+    public String deleteReview(@PathVariable Integer id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer == null) {
+            return "redirect:/login";
+        }
+
+        var review = reviewService.getReviewById(id);
+
+        if (review == null || !review.getCustomerId().getCustomerId().equals(customer.getCustomerId())) {
+            redirectAttributes.addFlashAttribute("error", "You cannot delete this review.");
+            return "redirect:/reviews";
+        }
+
+        reviewService.deleteReview(id);
+        redirectAttributes.addFlashAttribute("success", "Review deleted successfully.");
+
+        return "redirect:/reviews";
     }
 }

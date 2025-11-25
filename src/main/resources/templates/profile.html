@@ -45,26 +45,8 @@
     </div>
 
     <!-- SAVED SNACKBAR -->
-    <div th:if="${success}"
-         id="snackbar"
-         class="fixed right-5 top-5 bg-green-700 text-white px-5 py-3 rounded shadow-lg opacity-0 translate-y-[-10px] transition-all duration-500">
-        <span th:text="${success}"></span>
-    </div>
+    <div th:replace="fragments/snackbar::snackbar"></div>
 
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            const snackbar = document.getElementById("snackbar");
-            if (snackbar) {
-                setTimeout(() => {
-                    snackbar.classList.remove("opacity-0", "translate-y-[-10px]");
-                }, 50);
-
-                setTimeout(() => {
-                    snackbar.classList.add("opacity-0", "translate-y-[-10px]");
-                }, 3000);
-            }
-        });
-    </script>
 </div>
 
 <div th:replace="fragments/footer::footer"></div>
