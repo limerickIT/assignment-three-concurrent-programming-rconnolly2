@@ -30,20 +30,20 @@
         <div>
             <label class="block mb-1 font-medium">Material</label>
             <div class="max-h-40 overflow-auto border px-2 py-1 rounded space-y-2 flex flex-col">
-                <label><input th:checked="${materials!=null and materials.contains('Organic Cotton')}" type="checkbox" name="materials" value="Organic Cotton"> Organic Cotton</label>
-                <label><input th:checked="${materials!=null and materials.contains('Recycled Denim')}" type="checkbox" name="materials" value="Recycled Denim"> Recycled Denim</label>
-                <label><input th:checked="${materials!=null and materials.contains('Sustainable Fabric')}" type="checkbox" name="materials" value="Sustainable Fabric"> Sustainable Fabric</label>
-                <label><input th:checked="${materials!=null and materials.contains('Bamboo Fiber')}" type="checkbox" name="materials" value="Bamboo Fiber"> Bamboo Fiber</label>
+                <label><input th:checked="${materials != null and materials.contains('Organic Cotton')}" type="checkbox" name="materials" value="Organic Cotton"> Organic Cotton</label>
+                <label><input th:checked="${materials != null and materials.contains('Recycled Denim')}" type="checkbox" name="materials" value="Recycled Denim"> Recycled Denim</label>
+                <label><input th:checked="${materials != null and materials.contains('Sustainable Fabric')}" type="checkbox" name="materials" value="Sustainable Fabric"> Sustainable Fabric</label>
+                <label><input th:checked="${materials != null and materials.contains('Bamboo Fiber')}" type="checkbox" name="materials" value="Bamboo Fiber"> Bamboo Fiber</label>
             </div>
         </div>
 
         <div>
             <label class="block mb-1 font-medium">Manufacturer</label>
             <div class="max-h-40 overflow-auto border px-2 py-1 rounded space-y-2 flex flex-col">
-                <label><input th:checked="${manufacturers!=null and manufacturers.contains('EcoWear')}" type="checkbox" name="manufacturers" value="EcoWear"> EcoWear</label>
-                <label><input th:checked="${manufacturers!=null and manufacturers.contains('GreenFashion')}" type="checkbox" name="manufacturers" value="GreenFashion"> GreenFashion</label>
-                <label><input th:checked="${manufacturers!=null and manufacturers.contains('SustainStyle')}" type="checkbox" name="manufacturers" value="SustainStyle"> SustainStyle</label>
-                <label><input th:checked="${manufacturers!=null and manufacturers.contains('EcoStyle')}" type="checkbox" name="manufacturers" value="EcoStyle"> EcoStyle</label>
+                <label><input th:checked="${manufacturers != null and manufacturers.contains('EcoWear')}" type="checkbox" name="manufacturers" value="EcoWear"> EcoWear</label>
+                <label><input th:checked="${manufacturers != null and manufacturers.contains('GreenFashion')}" type="checkbox" name="manufacturers" value="GreenFashion"> GreenFashion</label>
+                <label><input th:checked="${manufacturers != null and manufacturers.contains('SustainStyle')}" type="checkbox" name="manufacturers" value="SustainStyle"> SustainStyle</label>
+                <label><input th:checked="${manufacturers != null and manufacturers.contains('EcoStyle')}" type="checkbox" name="manufacturers" value="EcoStyle"> EcoStyle</label>
             </div>
         </div>
 
@@ -98,7 +98,7 @@
                 <td class="px-4 py-3 align-middle">
                     <div class="flex items-center justify-center gap-4 text-xl">
                         <a th:href="@{'/wishlist/add/' + ${p.productId}}" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-heart"></i></a>
-                        <a th:href="@{'/shoppingcart/add/' + ${p.productId}}" class="text-green-700 hover:text-green-900"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <a th:href="@{'/cart/add/' + ${p.productId}}" class="text-green-700 hover:text-green-900"><i class="fa-solid fa-cart-shopping"></i></a>
                     </div>
                 </td>
             </tr>

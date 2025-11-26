@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Orderitem implements Serializable {
 
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Integer orderItemId;
    

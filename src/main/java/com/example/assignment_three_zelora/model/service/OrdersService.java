@@ -35,12 +35,8 @@ public class OrdersService {
         return ordersRepository.getOrdersByOrderStatus(status);
     }
 
-    public Orders updateOrder(Integer id, Orders updatedOrder) {
-        if (!ordersRepository.existsById(id)) {
-            return null;
-        }
-        updatedOrder.setOrderId(id);
-        return ordersRepository.save(updatedOrder);
+    public void updateOrder(Orders updatedOrder) {
+        ordersRepository.save(updatedOrder);
     }
 
     public void deleteOrder(Integer id) {

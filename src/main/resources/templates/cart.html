@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-50">
+
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-6xl mx-auto mt-10 px-4">
+
+    <h1 class="text-3xl font-semibold mb-6">Shopping Cart</h1>
+
+    <div th:if="${cart.size() == 0}" class="text-gray-600 text-lg">
+        Your cart is empty.
+    </div>
+
+    <div th:if="${cart.size() > 0}" class="bg-white border rounded-lg shadow p-6">
+
+        <div th:each="p, i : ${cart}" class="flex items-center gap-4 border-b py-4">
+
+            <img th:src="@{/images/thumbs/{id}/{img}(id=${p.productId},img=${p.featureImage})}"
+                 class="w-20 h-20 object-cover rounded border">
+
+            <div class="flex-1">
+                <p class="font-semibold text-lg" th:text="${p.productName}"></p>
+                <p class="text-gray-600" th:text="${p.description}"></p>
+                <p class="text-green-700 font-bold mt-1">
+                    €<span th:text="${p.discountedPrice < p.price ? p.discountedPrice : p.price}"></span>
+                </p>
+            </div>
+
+            <a th:href="@{'/cart/remove/' + ${i.index}}" class="text-red-600 hover:text-red-800">
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+
+        <div class="text-right text-xl font-semibold mt-4">
+            Total: €<span th:text="${total}"></span>
+        </div>
+
+        <form action="/cart/checkout" method="post" class="mt-6">
+            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-md text-lg">
+                Checkout
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/snackbar::snackbar"></div>
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+</html>

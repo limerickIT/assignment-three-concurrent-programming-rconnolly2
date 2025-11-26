@@ -26,11 +26,11 @@ public class WishlistService {
         wishlistRepository.deleteById(id);
     }
 
-    public Wishlist updateWishlistItem(Wishlist wishlist) {
-        return wishlistRepository.save(wishlist);
+    public void updateWishlistItem(Wishlist wishlist) {
+        wishlistRepository.save(wishlist);
     }
 
-    public Wishlist createWishlistItem(Wishlist wishlist) {
-        return wishlistRepository.save(wishlist);
+    public void createWishlistItem(Wishlist wishlist) {
+        wishlistRepository.save(wishlist);
     }
 }
