@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,7 +90,7 @@ public class ProductController {
         review.setRating(rating);
         review.setReviewText(reviewText);
         review.setFlaggedAsSpam(false);
-        review.setReviewDate(new java.util.Date());
+        review.setReviewDate(new Date());
 
         reviewService.createReview(review);
 

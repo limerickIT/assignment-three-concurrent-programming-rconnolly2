@@ -72,7 +72,7 @@ public class SearchController {
         }
 
         // I check if the product release date is after the user from releaseDate
-        if (releaseDate != null) {
+        if (releaseDate != null && !releaseDate.isEmpty()) {
             predicate = predicate.and(p -> p.getReleaseDate().after(java.sql.Date.valueOf(releaseDate)));
         }
 

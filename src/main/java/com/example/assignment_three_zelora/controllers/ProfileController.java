@@ -176,43 +176,6 @@ public class ProfileController {
         return "wishlist";
     }
 
-    @GetMapping("/wishlist/delete/{id}")
-    public String deleteWishlistItem(@PathVariable Integer id, HttpSession session, RedirectAttributes redirectAttributes) {
-        Customer customer = (Customer) session.getAttribute("customer");
-        if (customer == null) return "redirect:/login";
-
-        var item = wishlistService.getWishlistItem(id);
-        if (item == null || !item.getCustomerId().getCustomerId().equals(customer.getCustomerId())) {
-            redirectAttributes.addFlashAttribute("error", "You cannot delete this wish.");
-            return "redirect:/wishlist";
-        }
-
-        wishlistService.deleteWishlistItem(id);
-        redirectAttributes.addFlashAttribute("success", "Wish removed from wishlist.");
-        return "redirect:/wishlist";
-    }
-
-    @PostMapping("/wishlist/edit/{id}")
-    public String editWishlist(@PathVariable Integer id, @RequestParam(required = false) String notes,
-                               @RequestParam(required = false) String wishName, HttpSession session, RedirectAttributes redirect) {
-
-        Customer customer = (Customer) session.getAttribute("customer");
-        if (customer == null) return "redirect:/login";
-
-        Wishlist wish = wishlistService.getWishlistItem(id);
-        if (wish == null || !wish.getCustomerId().getCustomerId().equals(customer.getCustomerId())) {
-            redirect.addFlashAttribute("error", "You cannot edit this wish.");
-            return "redirect:/wishlist";
-        }
-
-        if (notes != null) wish.setNotes(notes);
-        if (wishName != null) wish.setWishlistName(wishName);
-
-        wishlistService.updateWishlistItem(wish);
-        redirect.addFlashAttribute("success", "Wish updated successfully.");
-        return "redirect:/wishlist";
-    }
-
     @GetMapping("/orders")
     public String ordersPage(@RequestParam(required = false) String status, Model model, HttpSession session) {
         Customer customer = (Customer) session.getAttribute("customer");

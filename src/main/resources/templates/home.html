@@ -8,16 +8,11 @@
 
 <body class="bg-gray-100">
 
-<!-- NAVBAR -->
 <div th:replace="fragments/navbar::navbar"></div>
 
-<!-- IMAGE SLIDER -->
 <div class="relative w-full h-[420px] overflow-hidden">
-
-    <!-- Slides Wrapper -->
     <div id="slider" class="flex transition-transform duration-700 ease-in-out">
 
-        <!-- Slide 1 -->
         <div class="w-full h-[420px] flex-shrink-0 relative">
             <img src="/images/general/hero1.png" class="w-full h-full object-cover">
             <div class="absolute top-1/3 left-12 text-white">
@@ -26,69 +21,65 @@
             </div>
         </div>
 
-        <!-- Slide 2 -->
         <div class="w-full h-[420px] flex-shrink-0 relative">
             <img src="/images/general/hero2.png" class="w-full h-full object-cover">
             <div class="absolute top-1/3 left-12 text-white">
-                <h2 class="text-4xl text-white font-bold drop-shadow-lg">Made for a Greener Tomorrow</h2>
+                <h2 class="text-4xl font-bold drop-shadow-lg">Made for a Greener Tomorrow</h2>
                 <p class="mt-2 text-lg drop-shadow-lg">Premium ethical fabrics. Low-waste design.</p>
             </div>
         </div>
 
-        <!-- Slide 3 -->
         <div class="w-full h-[420px] flex-shrink-0 relative">
             <img src="/images/general/hero3.png" class="w-full h-full object-cover">
             <div class="absolute top-1/3 left-12 text-white">
-                <h2 class="text-4xl text-white font-bold drop-shadow-lg">Family focused business</h2>
+                <h2 class="text-4xl font-bold drop-shadow-lg">Family focused business</h2>
                 <p class="mt-2 text-lg drop-shadow-lg">Best prices for all ages.</p>
             </div>
         </div>
 
     </div>
-
 </div>
+
 <script>
     const slider = document.getElementById("slider");
     let index = 0;
-
     function nextSlide() {
         index = (index + 1) % 3;
         slider.style.transform = `translateX(-${index * 100}%)`;
     }
-
     setInterval(nextSlide, 4000);
 </script>
 
-
-
-<!-- CATEGORIES -->
 <section class="max-w-7xl mx-auto mt-10 px-6">
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Shop by Category</h2>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <a th:each="category : ${categories}"
+           th:href="@{'/search?q=&categoryIds=' + ${category.categoryId}}"
+           class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 block">
 
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4" th:each="category : ${categories}">
-            <img class="w-full h-36 object-cover rounded" th:src="@{/images/categories/{photo}(photo=${category.categoryImage})}">
-            <p class="mt-3 text-center font-semibold" th:text="${category.categoryName}"></p>
-        </div>
+            <img class="w-full h-36 object-cover rounded"
+                 th:src="@{/images/categories/{photo}(photo=${category.categoryImage})}">
 
+            <p class="mt-3 text-center font-semibold"
+               th:text="${category.categoryName}"></p>
+
+        </a>
     </div>
 </section>
 
-
-
-<!-- FEATURED PRODUCTS -->
 <section class="max-w-7xl mx-auto mt-12 px-6">
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Featured Products</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
-             th:each="product : ${new_products}">
+        <div th:each="product : ${new_products}"
+             class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden flex flex-col">
 
-            <img class="w-full h-56 object-cover" th:src="@{/images/thumbs/{product_id}/{photo}(product_id=${product.productId}, photo=${product.featureImage})}">
+            <img class="w-full h-56 object-cover"
+                 th:src="@{/images/thumbs/{id}/{photo}(id=${product.productId}, photo=${product.featureImage})}">
 
-            <div class="p-4">
+            <div class="p-4 flex-1">
                 <h3 class="text-lg font-semibold" th:text="${product.productName}"></h3>
                 <p class="text-gray-600 mt-1" th:text="${product.description}"></p>
                 <p class="text-green-700 font-bold text-xl mt-2">
@@ -97,7 +88,7 @@
             </div>
 
             <div class="p-4 pt-0">
-                <a href="#"
+                <a th:href="@{'/product/' + ${product.productId}}"
                    class="block bg-green-700 text-white text-center py-2 rounded hover:bg-green-800">
                     View Details
                 </a>
@@ -107,39 +98,41 @@
     </div>
 </section>
 
-<!-- DISCOUNTED PRODUCTS -->
 <section class="max-w-7xl mx-auto mt-12 px-6">
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Discounted Products</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden"
-             th:each="product : ${discounted_products}">
+        <div th:each="product : ${discounted_products}"
+             class="bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden flex flex-col">
 
-            <img class="w-full h-56 object-cover" th:src="@{/images/thumbs/{product_id}/{photo}(product_id=${product.productId}, photo=${product.featureImage})}">
+            <img class="w-full h-56 object-cover"
+                 th:src="@{/images/thumbs/{id}/{photo}(id=${product.productId}, photo=${product.featureImage})}">
 
-            <div class="p-4">
+            <div class="p-4 flex-1">
+
                 <h3 class="text-lg font-semibold" th:text="${product.productName}"></h3>
                 <p class="text-gray-600 mt-1" th:text="${product.description}"></p>
 
                 <div class="flex items-center gap-2 mt-2">
 
-                    <span class="text-gray-500 line-through text-lg">
-                        €<span th:text="${product.price}"></span>
-                    </span>
+            <span class="text-gray-500 line-through text-lg">
+                €<span th:text="${product.price}"></span>
+            </span>
 
-                    <span class="bg-red-600 text-white text-sm font-bold px-2 py-1 rounded">
-                        -<span th:text="${100 - (product.discountedPrice / product.price * 100)}"></span>%
-                    </span>
+            <span class="bg-red-600 text-white text-sm font-bold px-2 py-1 rounded">
+                -<span th:text="${100 - (product.discountedPrice / product.price * 100)}"></span>%
+            </span>
 
-                    <span class="text-green-700 font-bold text-2xl">
-                        €<span th:text="${product.discountedPrice}"></span>
-                    </span>
-                </div>
+            <span class="text-green-700 font-bold text-2xl">
+                €<span th:text="${product.discountedPrice}"></span>
+            </span>
+
             </div>
+        </div>
 
-            <div class="p-4 pt-0">
-                <a href="#"
+        <div class="p-4 pt-0">
+                <a th:href="@{'/product/' + ${product.productId}}"
                    class="block bg-green-700 text-white text-center py-2 rounded hover:bg-green-800">
                     View Details
                 </a>
@@ -150,15 +143,16 @@
 </section>
 
 <div th:replace="fragments/footer::footer"></div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const menuBtn = document.getElementById("menu-btn");
         const mobileMenu = document.getElementById("mobile-menu");
-
         menuBtn.addEventListener("click", () => {
             mobileMenu.classList.toggle("hidden");
         });
     });
 </script>
+
 </body>
 </html>

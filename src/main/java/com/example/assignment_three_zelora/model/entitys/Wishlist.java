@@ -11,7 +11,7 @@ import java.util.Date;
 public class Wishlist implements Serializable {
 
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wishlist_id")
     private Integer wishlistId;
 

@@ -29,4 +29,8 @@ public class WishlistService {
     public Wishlist updateWishlistItem(Wishlist wishlist) {
         return wishlistRepository.save(wishlist);
     }
+
+    public Wishlist createWishlistItem(Wishlist wishlist) {
+        return wishlistRepository.save(wishlist);
+    }
 }
