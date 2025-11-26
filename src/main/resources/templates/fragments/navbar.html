@@ -7,7 +7,7 @@
         <!-- Desktop Search -->
         <form action="/search" method="get"
               class="hidden md:flex w-1/2 mx-6">
-            <input name="q" type="search" placeholder="Search sustainable clothing..."
+            <input th:value="${q != null ? q : ''}" name="q" type="search" placeholder="Search sustainable clothing..."
                    class="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none">
             <button type="submit"
                     class="bg-green-700 text-white px-4 rounded-r-md">

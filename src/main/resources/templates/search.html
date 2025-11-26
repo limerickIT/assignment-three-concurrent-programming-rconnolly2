@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.dataTables.css">
+    <script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+</head>
+
+<body class="bg-gray-50">
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-6xl mx-auto mt-10 px-4 flex gap-6">
+
+    <form th:action="@{/search}" method="get" id="filterForm" class="w-1/4 space-y-6">
+        <input type="hidden" name="q" th:value="${q}">
+
+        <div>
+            <label class="block mb-1 font-medium">Categories</label>
+            <div class="max-h-40 overflow-auto border px-2 py-1 rounded">
+                <label th:each="c : ${categories}" class="flex items-center gap-2">
+                    <input th:value="${c.categoryId}" th:checked="${categoryIds != null and categoryIds.contains(c.categoryId)}" type="checkbox" name="categoryIds">
+                    <span th:text="${c.categoryName}"></span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Material</label>
+            <div class="max-h-40 overflow-auto border px-2 py-1 rounded space-y-2 flex flex-col">
+                <label><input th:checked="${materials!=null and materials.contains('Organic Cotton')}" type="checkbox" name="materials" value="Organic Cotton"> Organic Cotton</label>
+                <label><input th:checked="${materials!=null and materials.contains('Recycled Denim')}" type="checkbox" name="materials" value="Recycled Denim"> Recycled Denim</label>
+                <label><input th:checked="${materials!=null and materials.contains('Sustainable Fabric')}" type="checkbox" name="materials" value="Sustainable Fabric"> Sustainable Fabric</label>
+                <label><input th:checked="${materials!=null and materials.contains('Bamboo Fiber')}" type="checkbox" name="materials" value="Bamboo Fiber"> Bamboo Fiber</label>
+            </div>
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Manufacturer</label>
+            <div class="max-h-40 overflow-auto border px-2 py-1 rounded space-y-2 flex flex-col">
+                <label><input th:checked="${manufacturers!=null and manufacturers.contains('EcoWear')}" type="checkbox" name="manufacturers" value="EcoWear"> EcoWear</label>
+                <label><input th:checked="${manufacturers!=null and manufacturers.contains('GreenFashion')}" type="checkbox" name="manufacturers" value="GreenFashion"> GreenFashion</label>
+                <label><input th:checked="${manufacturers!=null and manufacturers.contains('SustainStyle')}" type="checkbox" name="manufacturers" value="SustainStyle"> SustainStyle</label>
+                <label><input th:checked="${manufacturers!=null and manufacturers.contains('EcoStyle')}" type="checkbox" name="manufacturers" value="EcoStyle"> EcoStyle</label>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+
+                <label class="block mb-1 font-medium">Min Price (€)</label>
+                <input th:value="${minPrice != null ? minPrice : 0}" type="range" name="minPrice" min="0" max="500" class="w-full">
+                <label class="block mb-1 font-medium">Max Price (€)</label>
+                <input th:value="${maxPrice != null ? maxPrice : 500}" type="range" name="maxPrice" min="0" max="500" class="w-full">
+                <div class="text-sm text-gray-600">From <span th:text="${minPrice != null ? minPrice : 0}">0</span>€ up to <span th:text="${maxPrice != null ? maxPrice : 500}">500</span>€</div>
+            </div>
+            <button type="submit" class="bg-green-700 text-white px-4 py-2 mt-6 rounded-md">Go</button>
+        </div>
+
+    </form>
+
+    <div class="w-3/4 bg-white shadow-md border border-gray-200 rounded-lg p-6">
+        <table id="productsTable" class="display w-full text-sm border border-gray-300 rounded-md">
+            <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2">Image</th>
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Price</th>
+                <th class="px-4 py-2">Category</th>
+                <th class="px-4 py-2">Material</th>
+                <th class="px-4 py-2">Manufacturer</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="p : ${products}">
+                <td class="px-4 py-3"><img th:src="@{/images/thumbs/{id}/{img}(id=${p.productId}, img=${p.featureImage})}" class="w-16 h-16 object-cover rounded"></td>
+                <td class="px-4 py-3"><a th:href="@{'/product/' + ${p.productId}}" th:text="${p.productName}" class="text-green-700 hover:underline"></a></td>
+                <td class="px-4 py-3">€<span th:text="${p.price}"></span></td>
+                <td class="px-4 py-3" th:text="${p.categoryId.categoryName}"></td>
+                <td class="px-4 py-3" th:text="${p.material}"></td>
+                <td class="px-4 py-3" th:text="${p.manufacturer}"></td>
+
+                <td class="px-4 py-3 align-middle">
+                    <div class="flex items-center justify-center gap-4 text-xl">
+                        <a th:href="@{'/wishlist/add/' + ${p.productId}}" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-heart"></i></a>
+                        <a th:href="@{'/shoppingcart/add/' + ${p.productId}}" class="text-green-700 hover:text-green-900"><i class="fa-solid fa-cart-shopping"></i></a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // I add an event listener to all checkboxes to submit from if clicked
+    document.querySelectorAll('#filterForm input[type="checkbox"]').forEach(cb =>
+        cb.addEventListener('change', () =>
+            document.getElementById('filterForm').submit()
+        )
+    )
+
+    new DataTable("#productsTable", {
+        columnDefs: [
+            { orderable: false, targets: [0, 6] }
+        ],
+        layout: {
+            topStart: {},
+            topEnd: { pageLength: { menu: [5, 10, 25, 50] } },
+            bottomStart: { info: {} },
+            bottomEnd: { paging: { buttons: 3 } }
+        },
+        language: {
+            lengthMenu: "Show _MENU_ products per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ products",
+            emptyTable: "You have no orders yet",
+            infoEmpty: "No products found",
+        }
+    })
+</script>
+
+<div th:replace="fragments/footer::footer"></div>
+</body>
+</html>
