@@ -1,8 +1,10 @@
 package com.example.assignment_three_zelora.controllers;
 
+import com.example.assignment_three_zelora.model.entitys.Customer;
 import com.example.assignment_three_zelora.model.entitys.Product;
 import com.example.assignment_three_zelora.model.service.ProductService;
 import com.example.assignment_three_zelora.model.service.CategoryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +28,21 @@ public class SearchController {
     @GetMapping("/search")
     public String searchProducts(
             Model model,
+            HttpSession session,
             @RequestParam String q,
             @RequestParam(required = false) List<Integer> categoryIds,
             @RequestParam(required = false) List<String> materials,
             @RequestParam(required = false) List<String> manufacturers,
             @RequestParam(required = false) Integer minPrice,
-            @RequestParam(required = false) Integer maxPrice
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) String releaseDate
     ) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer == null) {
+            return "redirect:/login";
+        }
+
         String search = q.toLowerCase().trim();
 
         // I create a predicate to search products by their productName and description
@@ -61,11 +71,17 @@ public class SearchController {
             predicate = predicate.and(p -> p.getPrice().compareTo(BigDecimal.valueOf(maxPrice)) <= 0);
         }
 
+        // I check if the product release date is after the user from releaseDate
+        if (releaseDate != null) {
+            predicate = predicate.and(p -> p.getReleaseDate().after(java.sql.Date.valueOf(releaseDate)));
+        }
+
         List<Product> products = productService.getAllProducts()
                 .stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
 
+        model.addAttribute("customer", customer);
         model.addAttribute("products", products);
         model.addAttribute("categories", categoryService.getAllCategories());
 
@@ -76,6 +92,7 @@ public class SearchController {
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("releaseDate", releaseDate);
         model.addAttribute("q", q);
 
         return "search";
