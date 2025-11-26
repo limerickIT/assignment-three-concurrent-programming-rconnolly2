@@ -11,7 +11,7 @@ import java.util.Date;
 public class Review implements Serializable {
 
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Integer reviewId;
     

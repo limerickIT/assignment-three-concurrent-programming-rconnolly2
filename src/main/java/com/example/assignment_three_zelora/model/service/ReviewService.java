@@ -34,18 +34,6 @@ public class ReviewService {
         return reviewRepository.findByCustomerId_CustomerId(customerId);
     }
 
-    public List<Review> getSpamReviews() {
-        return reviewRepository.findByFlaggedAsSpam(true);
-    }
-
-    public Review updateReview(Integer id, Review updatedReview) {
-        if (!reviewRepository.existsById(id)) {
-            return null;
-        }
-        updatedReview.setReviewId(id);
-        return reviewRepository.save(updatedReview);
-    }
-
     public void deleteReview(Integer id) {
         reviewRepository.deleteById(id);
     }

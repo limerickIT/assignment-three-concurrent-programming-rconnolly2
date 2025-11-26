@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.productName}"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-50">
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-5xl mx-auto mt-10 px-4">
+
+    <div class="bg-white p-6 shadow-md rounded-lg border border-gray-200 flex flex-col md:flex-row gap-10">
+
+        <div class="md:w-1/2 w-full">
+            <img th:src="@{/images/large/{id}/{img}(id=${product.productId},img=${product.featureImage})}" class="w-full rounded border">
+        </div>
+
+        <div class="md:w-1/2 w-full flex flex-col">
+
+            <div class="space-y-4">
+
+                <h1 th:text="${product.productName}" class="text-3xl font-semibold"></h1>
+                <div th:text="${product.description}" class="text-gray-700"></div>
+
+                <div class="text-lg flex items-center gap-3">
+                    <span th:if="${product.discountedPrice<product.price}" class="text-red-600 font-bold text-3xl">€<span th:text="${product.discountedPrice}"></span></span>
+                    <span th:if="${product.discountedPrice>=product.price}" class="text-green-700 font-bold text-3xl">€<span th:text="${product.price}"></span></span>
+                    <span th:if="${product.discountedPrice<product.price}" class="text-gray-500 line-through text-lg">€<span th:text="${product.price}"></span></span>
+                </div>
+
+                <div class="text-sm text-gray-600">Category: <span th:text="${category.categoryName}" class="font-medium text-black"></span></div>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-yellow-500 text-xl flex items-center gap-1"><i class="fa-solid fa-star"></i><span th:text="${#numbers.formatDecimal(averageRating,1,1)}"></span>/5</div>
+                    <a th:href="@{'/wishlist/add/' + ${product.productId}}" class="text-red-500 hover:text-red-700 text-2xl flex items-center"><i class="fa-solid fa-heart"></i></a>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col h-full mt-4">
+
+                <div th:switch="${stockStatus}">
+                    <div th:case="'in'" class="text-green-700 font-semibold">In Stock (<span th:text="${availableQty}"></span> available)</div>
+                    <div th:case="'low'" class="text-orange-600 font-semibold">Low stock — <span th:text="${availableQty}"></span> left!</div>
+                    <div th:case="'out'" class="text-red-600 font-semibold">Out of stock</div>
+                </div>
+
+                <div class="flex-grow"></div>
+
+                <a th:if="${stockStatus == 'out'}" class="w-full text-center bg-gray-400 text-white py-3 rounded-md text-lg mt-4 cursor-not-allowed opacity-70">Check another time</a>
+                <a th:if="${stockStatus == 'low' || stockStatus == 'in'}" th:href="@{'/shoppingcart/add/' + ${product.productId}}" class="w-full text-center bg-green-700 hover:bg-green-800 text-white py-3 rounded-md text-lg mt-4">Add to Cart</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="mt-10 bg-white p-6 shadow-md rounded-lg border border-gray-200">
+        <h2 class="text-2xl font-semibold mb-4">Customer Reviews</h2>
+
+        <div th:if="${reviews.size()==0}" class="text-gray-600">No reviews with rating 3 or above.</div>
+
+        <div th:each="r:${reviews}" class="border-b py-4">
+            <div class="flex items-center gap-2 text-yellow-500 text-lg"><i class="fa-solid fa-star"></i><span th:text="${r.rating}"></span></div>
+            <div th:text="${r.reviewText}" class="mt-1 text-gray-700"></div>
+            <div class="text-sm text-gray-500 mt-1"><span th:text="${r.customerId.firstName}"></span>, <span th:text="${r.customerId.city}"></span></div>
+        </div>
+
+        <h3 class="text-xl font-semibold mt-8 mb-3">Write a Review</h3>
+
+        <form th:action="@{'/product/' + 'review/' + ${product.productId}}" method="post" class="space-y-4">
+
+            <div>
+                <label class="block mb-1 font-medium">Rating</label>
+                <select name="rating" class="w-full border rounded px-2 py-2">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Your Review</label>
+                <textarea name="reviewText" rows="4" class="w-full border rounded px-3 py-2" placeholder="Write your review..."></textarea>
+            </div>
+
+            <button class="block w-full text-center bg-green-700 hover:bg-green-800 text-white py-3 rounded-md text-lg">Submit Review</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer::footer"></div>
+</body>
+</html>
