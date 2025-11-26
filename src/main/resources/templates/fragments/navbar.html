@@ -18,8 +18,8 @@
         <!-- Desktop Menu -->
         <div class="hidden md:flex gap-6 items-center">
 
-            <!-- When NOT logged in -->
-            <div th:unless="${loggedIn}" class="flex gap-6 items-center">
+            <!-- When customer is not logged in -->
+            <div th:unless="${customer}" class="flex gap-6 items-center">
 
                 <a href="/login" class="flex items-center gap-2 text-gray-700 hover:text-green-700">
                     <i class="fa-solid fa-right-to-bracket"></i>
@@ -32,8 +32,8 @@
                 </a>
             </div>
 
-            <!-- When logged in -->
-            <div th:if="${loggedIn}" class="flex gap-6 items-center">
+            <!-- When customer is logged in -->
+            <div th:if="${customer}" class="flex gap-6 items-center">
 
                 <a href="/account" class="flex items-center gap-2 text-gray-700 hover:text-green-700">
                     <i class="fa-solid fa-user"></i>
@@ -69,7 +69,7 @@
     <div id="mobile-menu"
          class="hidden flex-col bg-white shadow-lg px-6 pb-4 md:hidden">
 
-        <div th:unless="${loggedIn}">
+        <div th:unless="${customer}">
             <a href="/login" class="flex items-center gap-2 py-2 text-gray-700 hover:text-green-700">
                 <i class="fa-solid fa-right-to-bracket"></i>
                 <span>Sign In</span>
@@ -81,7 +81,7 @@
             </a>
         </div>
 
-        <div th:if="${loggedIn}">
+        <div th:if="${customer}">
             <a href="/account" class="flex items-center gap-2 py-2 text-gray-700 hover:text-green-700">
                 <i class="fa-solid fa-user"></i>
                 <span>My Account</span>
@@ -100,14 +100,3 @@
 
     </div>
 </nav>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuBtn = document.getElementById("menu-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-    });
-</script>

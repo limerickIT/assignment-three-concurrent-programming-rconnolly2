@@ -1,5 +1,6 @@
 package com.example.assignment_three_zelora.controllers;
 
+import com.example.assignment_three_zelora.model.entitys.Customer;
 import com.example.assignment_three_zelora.model.entitys.Product;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class HomeController {
     @GetMapping("/")
     public String homePage(Model model, HttpSession session) {
         List<Product> products = productService.getAllProducts();
-        boolean loggedIn = session.getAttribute("customer") != null;
+        Customer customer = (Customer) session.getAttribute("customer");
 
-        model.addAttribute("loggedIn", loggedIn);
+        model.addAttribute("customer", customer);
         model.addAttribute("new_products", products.stream()
                 .sorted(Comparator.comparing(Product::getReleaseDate).reversed())
                 .limit(10)
