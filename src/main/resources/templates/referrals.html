@@ -63,30 +63,10 @@
     </div>
 </div>
 
-<script>
-    new DataTable("#referralsTable", {
-        layout: {
-            topStart: [ { search: { placeholder: 'Search referrals...' } } ],
-            topEnd: {
-                pageLength: {
-                    menu: [5, 10, 25, 50]
-                }
-            },
-            bottomStart: { info: {} },
-            bottomEnd: { paging: { buttons: 3 } }
-        },
-        language: {
-            lengthMenu: "Show _MENU_ referrals per page",
-            info: "Showing _START_ to _END_ of _TOTAL_ referrals",
-            search: "",
-            emptyTable: "You have no referrals yet",
-            zeroRecords: "No matching referrals found"
-        }
-    });
-</script>
-
 <div th:replace="fragments/snackbar::snackbar"></div>
 <div th:replace="fragments/footer::footer"></div>
+<script th:src="@{/js/referrals.js}"></script>
+<script th:src="@{/js/burger.js}"></script>
 
 </body>
 </html>
