@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2025 at 01:13 PM
+-- Generation Time: Nov 27, 2025 at 01:20 PM
 -- Server version: 8.0.42
 -- PHP Version: 8.2.12
 
@@ -900,7 +900,7 @@ CREATE TABLE `referrals` (
 --
 
 INSERT INTO `referrals` (`referral_id`, `customer_id`, `email`, `referral_code`, `status`, `created_at`) VALUES
-(2, 1, 'robertoconnolly100@gmail.com', '041d4018ce', 'Used', '2025-11-27 00:22:55'),
+(2, 1, 'robertoconnolly100@gmail.com', '623871', 'Used', '2025-11-27 00:22:55'),
 (3, 1, 'biher33216@bablace.com', '894247', 'Sent', '2025-11-27 01:49:10');
 
 -- --------------------------------------------------------
