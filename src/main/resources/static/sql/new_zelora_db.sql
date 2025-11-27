@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2025 at 11:42 AM
+-- Generation Time: Nov 27, 2025 at 01:13 PM
 -- Server version: 8.0.42
 -- PHP Version: 8.2.12
 
@@ -104,7 +104,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `email`, `password`, `address`, `phone_number`, `date_of_birth`, `payment_info`, `size_preferences`, `vip_status`, `communication_preferences`, `date_joined`, `city`) VALUES
-(1, 'Eoins', 'Murphy', 'eoin.murphy1@hotmail.com', '$2a$10$IqscD6bUMKNdczwh1/CDvuHPLCAbcJpUSiHWo2ZtUTKFoFQFPax86', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-03', 'Dublin'),
+(1, 'Robert', 'Murphy', 'eoin.murphy1@hotmail.com', '$2a$10$IqscD6bUMKNdczwh1/CDvuHPLCAbcJpUSiHWo2ZtUTKFoFQFPax86', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-03', 'Dublin'),
 (2, 'Barry', 'Smith', 'barry.s@hotmail.com', 'brpa$$', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-18', 'Dublin'),
 (3, 'Cillian', 'O\'Sullivan', 'cillian.osullivan@gmail.com', 'Ua^qJ!&6e', '9 Abbey Street', '+353 61 876 5432', '1980-11-05', 'Paypal', 'Small', 'Gold', 'Email', '2023-09-26', 'Limerick'),
 (4, 'Saoirse', 'Walsh', 'swalsh@microsoft.com', 'ehGC$dYJb7', '8 Thomas Street', '+353 91 765 4321', '1992-02-17', 'Credit Card', 'Medium', 'Bronze', 'Email', '2023-04-04', 'Galway'),
@@ -924,7 +924,6 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`review_id`, `customer_id`, `product_id`, `rating`, `review_text`, `review_date`, `flagged_as_spam`) VALUES
-(1, 1, 23, 5, 'Great product! Excellent quality and eco-friendly materials.', '2023-05-15', 0),
 (2, 34, 2, 4, 'I love the sustainability of this clothing. Very comfortable.', '2023-05-16', 0),
 (3, 16, 45, 4, 'Good product, but I expected more color choices.', '2023-05-17', 0),
 (4, 78, 4, 5, 'Amazing sustainable fashion. I\'m impressed!', '2023-05-18', 0),
@@ -1154,7 +1153,8 @@ INSERT INTO `wishlist` (`wishlist_id`, `customer_id`, `product_id`, `added_date`
 (39, 2, 53, '2024-02-27', 'Aoifes Christmas List 2024', 'Need to start putting money away for Christmas!!'),
 (40, 1, 37, '2023-10-02', 'Summer wish', 'Buy these leggings in April'),
 (42, 1, 13, '2025-11-26', NULL, NULL),
-(45, 1, 1, '2025-11-26', NULL, 'Buy these leggings in April');
+(45, 1, 1, '2025-11-26', NULL, 'Buy these leggings in April'),
+(47, 1, 13, '2025-11-27', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -1300,7 +1300,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `wishlist_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `wishlist_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Constraints for dumped tables
