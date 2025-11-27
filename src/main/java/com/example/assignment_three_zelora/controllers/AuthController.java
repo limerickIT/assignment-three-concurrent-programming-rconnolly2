@@ -1,5 +1,7 @@
 package com.example.assignment_three_zelora.controllers;
 
+import com.example.assignment_three_zelora.model.service.EmailService;
+import com.example.assignment_three_zelora.model.service.ReferralService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class AuthController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ReferralService referralService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -62,20 +67,28 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerCustomer(
-            @Valid @ModelAttribute Customer customer,
-            BindingResult result) {
+    public String registerCustomer(@Valid @ModelAttribute Customer customer,
+                                   BindingResult result,
+                                   @RequestParam(required = false)
+                                   String referralCode,
+                                   Model model) {
 
         if (result.hasErrors()) {
             return "register";
         }
 
-        // I hash the new user password
-        String hashed = passwordEncoder.encode(customer.getPassword());
-        customer.setPassword(hashed);
+        if (customerService.getCustomerByEmail(customer.getEmail()) != null) {
+            model.addAttribute("error", "Email already exists");
+            return "register";
+        }
 
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setDateJoined(Date.from(Instant.now()));
         customerService.createCustomer(customer);
+
+        if (referralCode != null && !referralCode.isBlank()) {
+            referralService.processReferralRegistration(referralCode);
+        }
 
         return "redirect:/login";
     }

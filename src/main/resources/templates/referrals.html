@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Referrals</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.dataTables.css">
+    <script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+</head>
+
+<body class="bg-gray-50">
+
+<div th:replace="fragments/navbar::navbar"></div>
+
+<div class="max-w-6xl mx-auto mt-10 px-4">
+
+    <div class="text-sm text-gray-600 mb-4">
+        <a href="/account" class="hover:underline text-green-700">Your Account</a>
+        <span>›</span>
+        <span class="font-semibold text-black">Referral Program</span>
+    </div>
+
+    <h1 class="text-3xl font-semibold mb-4">Referral Program</h1>
+    <h3 class="text-1xl mb-4">Enjoy 10% off your next order, per referral.</h3>
+
+    <div class="flex justify-between items-center mb-4">
+
+        <form th:action="@{/invite}" method="post" class="flex gap-3">
+            <input type="email" name="email" class="border px-3 py-2 rounded w-64" placeholder="Enter email to invite" required>
+            <button class="bg-green-700 text-white px-4 rounded hover:bg-green-800">
+                Send Invite
+            </button>
+        </form>
+
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+
+        <table id="referralsTable" class="display w-full text-sm border border-gray-300 rounded-md">
+            <thead class="bg-gray-100 border-b border-gray-300">
+            <tr>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Code</th>
+                <th class="px-4 py-2">Status</th>
+                <th class="px-4 py-2">Date</th>
+            </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+            <tr th:each="r : ${referrals}">
+                <td class="px-4 py-3" th:text="${r.email}"></td>
+                <td class="px-4 py-3 font-mono" th:text="${r.referralCode}"></td>
+                <td th:if="${r.status == 'Sent'}" class="text-blue-700 hover:text-blue-900" th:text="${r.status}"></td>
+                <td th:if="${r.status == 'Registered'}" class="text-green-700 hover:text-green-900" th:text="${r.status}"></td>
+                <td th:if="${r.status == 'Used'}" class="text-orange-700 hover:text-orange-900" th:text="${r.status}"></td>
+                <td class="px-4 py-3" th:text="${#dates.format(r.createdAt,'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    new DataTable("#referralsTable", {
+        layout: {
+            topStart: [ { search: { placeholder: 'Search referrals...' } } ],
+            topEnd: {
+                pageLength: {
+                    menu: [5, 10, 25, 50]
+                }
+            },
+            bottomStart: { info: {} },
+            bottomEnd: { paging: { buttons: 3 } }
+        },
+        language: {
+            lengthMenu: "Show _MENU_ referrals per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ referrals",
+            search: "",
+            emptyTable: "You have no referrals yet",
+            zeroRecords: "No matching referrals found"
+        }
+    });
+</script>
+
+<div th:replace="fragments/snackbar::snackbar"></div>
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+</html>

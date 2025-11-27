@@ -1,13 +1,10 @@
 package com.example.assignment_three_zelora.controllers;
 
-import com.example.assignment_three_zelora.model.entitys.Product;
-import com.example.assignment_three_zelora.model.entitys.Customer;
-import com.example.assignment_three_zelora.model.entitys.Orders;
-import com.example.assignment_three_zelora.model.entitys.Orderitem;
+import com.example.assignment_three_zelora.model.entitys.*;
 import com.example.assignment_three_zelora.model.service.OrderitemService;
 import com.example.assignment_three_zelora.model.service.ProductService;
 import com.example.assignment_three_zelora.model.service.OrdersService;
-import com.example.assignment_three_zelora.model.repos.OrderitemRepository;
+import com.example.assignment_three_zelora.model.service.ReferralService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,9 +28,13 @@ public class CartController {
     @Autowired
     private OrderitemService orderitemService;
 
+    @Autowired
+    private ReferralService referralService;
+
     @GetMapping
     public String cart(Model model, HttpSession session) {
         Customer customer = (Customer) session.getAttribute("customer");
+        boolean referralDiscount = false;
 
         if(customer == null) {
             return "redirect:/login";
@@ -45,7 +46,14 @@ public class CartController {
         }
 
         BigDecimal total = cart.stream().map(Product::getDiscountedPrice).reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        // I check if these users has any active referrals to apply 10% discount
+        Referral ref = referralService.getActiveReferral();
+        if (ref != null) {
+            total = total.multiply(BigDecimal.valueOf(0.9));
+            referralDiscount = true;
+        }
 
+        model.addAttribute("referralDiscount", referralDiscount);
         model.addAttribute("cart", cart);
         model.addAttribute("total", total);
         model.addAttribute("customer", customer);
@@ -143,7 +151,16 @@ public class CartController {
         }
 
         // I update the total after creating all the items
+        // and apply discount I have referral
+        Referral ref = referralService.getActiveReferral();
+        if (ref != null) {
+            total = total.multiply(BigDecimal.valueOf(0.9));
+            ref.setStatus("Used");
+            referralService.updateReferral(ref);
+        }
+
         order.setTotalAmount(total);
+
         ordersService.updateOrder(order);
 
         session.removeAttribute("cart");
