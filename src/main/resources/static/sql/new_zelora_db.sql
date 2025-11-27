@@ -1,14 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2025 at 03:06 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.1
-create database zelora;
-use zelora;
-
+-- Generation Time: Nov 27, 2025 at 11:42 AM
+-- Server version: 8.0.42
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,30 +24,57 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `address_id` int NOT NULL,
+  `customer_id` int DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `address_line_1` varchar(255) DEFAULT NULL,
+  `address_line_2` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `postal_code` varchar(50) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(50) DEFAULT NULL,
+  `is_default` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`address_id`, `customer_id`, `full_name`, `address_line_1`, `address_line_2`, `city`, `postal_code`, `country`, `phone_number`, `is_default`) VALUES
+(1, 1, 'Marty Connolly', '48 Cluain Dara, Clonmacken', '', 'Limerick', 'V94 CPK6', 'Limerick', '089 989 8343', 0),
+(2, 1, 'Sean Connolly', 'Carrer Terra Vella, 11', '', 'Andorra', 'AD500', 'Andorra', '+353 89 989 8343', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
-  `category_id` int(11) NOT NULL,
+  `category_id` int NOT NULL,
   `category_name` varchar(100) DEFAULT NULL,
   `category_image` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`category_id`, `category_name`, `category_image`) VALUES
-(1, 'Men\'s Clothing', 'no-image.jpg'),
-(2, 'Women\'s Clothing', 'no-image.jpg'),
-(3, 'Shoes', 'no-image.jpg'),
-(4, 'Accessories', 'no-image.jpg'),
-(5, 'T-Shirts', 'no-image.jpg'),
-(6, 'Jeans', 'no-image.jpg'),
-(7, 'Dresses', 'no-image.jpg'),
-(8, 'Jackets', 'no-image.jpg'),
-(9, 'Sneakers', 'no-image.jpg'),
-(10, 'Hats', 'no-image.jpg');
+(1, 'Men\'s Clothing', 'men.png'),
+(2, 'Women\'s Clothing', 'women.png'),
+(3, 'Shoes', 'shoes.png'),
+(4, 'Accessories', 'accessories.png'),
+(5, 'T-Shirts', 'shirts.png'),
+(6, 'Jeans', 'jeans.png'),
+(7, 'Dresses', 'dresses.png'),
+(8, 'Jackets', 'jackets.png'),
+(9, 'Sneakers', 'sneakers.png'),
+(10, 'Hats', 'hats.png');
 
 -- --------------------------------------------------------
 
@@ -59,28 +83,28 @@ INSERT INTO `categories` (`category_id`, `category_name`, `category_image`) VALU
 --
 
 CREATE TABLE `customers` (
-  `customer_id` int(11) NOT NULL,
+  `customer_id` int NOT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `address` text DEFAULT NULL,
+  `address` text,
   `phone_number` varchar(20) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `payment_info` varchar(255) DEFAULT NULL,
-  `size_preferences` text DEFAULT NULL,
+  `size_preferences` text,
   `vip_status` varchar(20) DEFAULT NULL,
-  `communication_preferences` text DEFAULT NULL,
+  `communication_preferences` text,
   `date_joined` date DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `customers`
 --
 
 INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `email`, `password`, `address`, `phone_number`, `date_of_birth`, `payment_info`, `size_preferences`, `vip_status`, `communication_preferences`, `date_joined`, `city`) VALUES
-(1, 'Eoin', 'Murphy', 'eoin.murphy@hotmail.com', 'eoinpa$$', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-03', 'Dublin'),
+(1, 'Eoins', 'Murphy', 'eoin.murphy1@hotmail.com', '$2a$10$IqscD6bUMKNdczwh1/CDvuHPLCAbcJpUSiHWo2ZtUTKFoFQFPax86', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-03', 'Dublin'),
 (2, 'Barry', 'Smith', 'barry.s@hotmail.com', 'brpa$$', '13 Talbot Street', '+353 1 234 5678', '1985-03-12', 'Paypal', 'Large', 'Silver', 'SMS', '2023-03-18', 'Dublin'),
 (3, 'Cillian', 'O\'Sullivan', 'cillian.osullivan@gmail.com', 'Ua^qJ!&6e', '9 Abbey Street', '+353 61 876 5432', '1980-11-05', 'Paypal', 'Small', 'Gold', 'Email', '2023-09-26', 'Limerick'),
 (4, 'Saoirse', 'Walsh', 'swalsh@microsoft.com', 'ehGC$dYJb7', '8 Thomas Street', '+353 91 765 4321', '1992-02-17', 'Credit Card', 'Medium', 'Bronze', 'Email', '2023-04-04', 'Galway'),
@@ -231,7 +255,10 @@ INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `email`, `pas
 (149, 'Séan', 'Ó Raghallaigh', 'sean.oraghallaig@gmit.ie', '0r5OpVz4', '2626 Pine Lane', '+353 91 2626 2727', '1983-11-11', 'Debit Card', 'Medium', 'Gold', 'Email', '2023-09-29', 'Galway'),
 (150, 'Natalia', 'Kowalczyk', 'natalia.kowalczyk@qub.co.uk', 'w&z0kV-dY', '2727 Cedar Road', '+44 28 2727 2828', '1989-07-26', 'Credit Card', 'Medium', 'Bronze', 'SMS', '2022-12-24', 'Belfast'),
 (151, 'Ciarán', 'Ó Néill', 'coneill88@gmail.com', 'c*rH0VU', '2828 Elm Road', '+353 1 2828 2929', '1988-06-05', 'Credit Card', 'Medium', 'Silver', 'Email', '2022-11-12', 'Dublin'),
-(152, 'Svitlana', 'Ivanenko', 'sviivan@gmail.com', 'fLh!$(J6', '2929 Oak Lane', '+353 21 2929 3030', '1985-02-20', 'Debit Card', 'Large', 'Gold', 'SMS', '2023-08-01', 'Cork');
+(152, 'Svitlana', 'Ivanenko', 'sviivan@gmail.com', 'fLh!$(J6', '2929 Oak Lane', '+353 21 2929 3030', '1985-02-20', 'Debit Card', 'Large', 'Gold', 'SMS', '2023-08-01', 'Cork'),
+(153, 'Marius', 'Constantin', 'marius@gmail.com', '$2a$10$Zgumhbjs95XEqtSik7YfI.eX/N0hogNyRloKgml3NA2hj2zjtp0Wu', '48 Cluain Dara, Clonmacken', '+353 89 989 8343', '1984-01-12', NULL, NULL, NULL, 'SMS', '2025-11-18', 'Limerick'),
+(154, 'Robert', 'Connolly', 'robertoconnolly100@gmail.com', '$2a$10$IqscD6bUMKNdczwh1/CDvuHPLCAbcJpUSiHWo2ZtUTKFoFQFPax86', 'Sct. Peders Gade', '089 989 8343', '1974-03-12', NULL, NULL, NULL, 'SMS', '2025-11-18', 'Dublin'),
+(155, 'Pedro', 'Connolly', 'pedro@gmail.com', '$2a$10$a3jP6v7Tp4.gAfVG4QK5Ke156gYwf.qaf3KRcMYLjlvvqhE5IHkvO', 'Sct. Peders Gade', '089 989 8343', '1222-12-12', NULL, NULL, NULL, 'SMS', '2025-11-27', 'Randers');
 
 -- --------------------------------------------------------
 
@@ -240,10 +267,10 @@ INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `email`, `pas
 --
 
 CREATE TABLE `db_metadata` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `notice` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `db_metadata`
@@ -260,13 +287,13 @@ INSERT INTO `db_metadata` (`id`, `notice`, `created_at`) VALUES
 --
 
 CREATE TABLE `inventory` (
-  `inventory_id` int(11) NOT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `quantity_in_stock` int(11) DEFAULT NULL,
-  `quantity_reserved` int(11) DEFAULT NULL,
-  `reorder_point` int(11) DEFAULT NULL,
-  `supplier_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `inventory_id` int NOT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity_in_stock` int DEFAULT NULL,
+  `quantity_reserved` int DEFAULT NULL,
+  `reorder_point` int DEFAULT NULL,
+  `supplier_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `inventory`
@@ -366,204 +393,211 @@ INSERT INTO `inventory` (`inventory_id`, `product_id`, `quantity_in_stock`, `qua
 --
 
 CREATE TABLE `orderitems` (
-  `order_item_id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
+  `order_item_id` int NOT NULL,
+  `order_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
   `item_price` decimal(10,2) DEFAULT NULL,
   `subtotal` decimal(10,2) DEFAULT NULL,
   `item_weight` decimal(10,2) DEFAULT NULL,
-  `customisation_options` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `customisation_options` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `orderitems`
 --
 
 INSERT INTO `orderitems` (`order_item_id`, `order_id`, `product_id`, `quantity`, `item_price`, `subtotal`, `item_weight`, `customisation_options`) VALUES
-(1, 1, 1, 2, '29.99', '59.98', '1.50', 'Color: Blue, Size: M'),
-(2, 1, 3, 1, '49.99', '49.99', '1.00', 'Size: L'),
-(3, 2, 5, 3, '19.99', '59.97', '1.20', 'Color: Green, Size: S'),
-(4, 3, 2, 1, '39.99', '39.99', '1.00', 'Size: XL'),
-(5, 4, 7, 2, '79.99', '159.98', '2.00', 'Size: M'),
-(6, 4, 8, 1, '59.99', '59.99', '1.50', 'Color: Red, Size: S'),
-(7, 5, 4, 1, '34.99', '34.99', '0.80', 'Color: Black, Size: M'),
-(8, 5, 9, 2, '24.99', '49.98', '1.00', 'Size: S'),
-(9, 5, 10, 1, '64.99', '64.99', '1.20', 'Color: White, Size: L'),
-(10, 6, 6, 2, '44.99', '89.98', '1.50', 'Size: XL'),
-(11, 7, 3, 1, '49.99', '49.99', '1.00', 'Color: Blue, Size: S'),
-(12, 8, 7, 2, '79.99', '159.98', '1.80', 'Color: Green, Size: M'),
-(13, 9, 8, 1, '59.99', '59.99', '1.20', 'Size: L'),
-(14, 10, 1, 2, '29.99', '59.98', '1.50', 'Color: Red, Size: M'),
-(15, 10, 4, 1, '34.99', '34.99', '0.80', 'Size: S'),
-(16, 11, 10, 1, '64.99', '64.99', '1.00', 'Color: Black, Size: XL'),
-(17, 12, 5, 3, '19.99', '59.97', '1.20', 'Size: M'),
-(18, 13, 2, 1, '39.99', '39.99', '1.00', 'Color: White, Size: S'),
-(19, 14, 9, 2, '24.99', '49.98', '1.50', 'Color: Blue, Size: L'),
-(20, 14, 6, 1, '44.99', '44.99', '1.20', 'Size: S'),
-(21, 15, 8, 1, '59.99', '59.99', '1.50', 'Color: Blue, Size: M'),
-(22, 15, 7, 2, '79.99', '159.98', '1.80', 'Size: S'),
-(23, 16, 3, 1, '49.99', '49.99', '1.00', 'Color: Red, Size: L'),
-(24, 17, 2, 2, '79.98', '159.96', '1.80', 'Color: Green, Size: M'),
-(25, 17, 6, 1, '44.99', '44.99', '1.20', 'Size: XL'),
-(26, 18, 1, 1, '29.99', '29.99', '1.00', 'Color: White, Size: S'),
-(27, 18, 4, 2, '69.98', '139.96', '1.80', 'Size: M'),
-(28, 19, 10, 3, '194.97', '584.91', '2.40', 'Color: Blue, Size: L'),
-(29, 20, 5, 1, '19.99', '19.99', '1.00', 'Size: S'),
-(30, 20, 8, 2, '119.98', '239.96', '2.20', 'Color: Red, Size: XL'),
-(31, 21, 7, 1, '59.99', '59.99', '1.50', 'Color: Black, Size: M'),
-(32, 21, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(33, 21, 9, 1, '24.99', '24.99', '1.00', 'Color: White, Size: L'),
-(34, 22, 3, 2, '99.98', '199.96', '2.00', 'Color: Green, Size: S'),
-(35, 22, 2, 1, '39.99', '39.99', '1.00', 'Size: M'),
-(36, 23, 5, 1, '19.99', '19.99', '1.00', 'Size: L'),
-(37, 24, 8, 2, '119.98', '239.96', '2.20', 'Color: Red, Size: M'),
-(38, 25, 10, 1, '64.99', '64.99', '1.20', 'Size: S'),
-(39, 26, 1, 1, '29.99', '29.99', '1.00', 'Color: Blue, Size: L'),
-(40, 27, 2, 2, '79.98', '159.96', '1.80', 'Color: White, Size: S'),
-(41, 27, 6, 1, '44.99', '44.99', '1.20', 'Size: XL'),
-(42, 28, 7, 1, '59.99', '59.99', '1.50', 'Color: Green, Size: M'),
-(43, 29, 3, 2, '99.98', '199.96', '2.00', 'Size: S'),
-(44, 30, 2, 1, '39.99', '39.99', '1.00', 'Color: Blue, Size: M'),
-(45, 31, 10, 1, '64.99', '64.99', '1.20', 'Color: Red, Size: L'),
-(46, 32, 5, 1, '19.99', '19.99', '1.00', 'Size: S'),
-(47, 33, 8, 2, '119.98', '239.96', '2.20', 'Color: White, Size: M'),
-(48, 34, 7, 1, '59.99', '59.99', '1.50', 'Size: L'),
-(49, 35, 3, 2, '99.98', '199.96', '2.00', 'Color: Green, Size: XL'),
-(50, 36, 2, 1, '29.99', '29.99', '1.00', 'Size: M'),
-(51, 37, 5, 1, '19.99', '19.99', '1.00', 'Size: XL'),
-(52, 37, 8, 2, '119.98', '239.96', '2.20', 'Color: Blue, Size: S'),
-(53, 38, 3, 2, '99.98', '199.96', '2.00', 'Size: L'),
-(54, 39, 2, 1, '39.99', '39.99', '1.00', 'Color: Green, Size: S'),
-(55, 40, 7, 1, '59.99', '59.99', '1.50', 'Size: M'),
-(56, 41, 6, 2, '89.98', '179.96', '2.00', 'Color: Red, Size: XL'),
-(57, 42, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(58, 43, 4, 2, '69.98', '139.96', '1.80', 'Color: White, Size: M'),
-(59, 44, 10, 3, '194.97', '584.91', '2.40', 'Size: L'),
-(60, 45, 5, 1, '19.99', '19.99', '1.00', 'Color: Blue, Size: XL'),
-(61, 45, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(62, 46, 7, 1, '59.99', '59.99', '1.50', 'Color: Red, Size: M'),
-(63, 47, 6, 2, '89.98', '179.96', '2.00', 'Size: L'),
-(64, 48, 9, 1, '24.99', '24.99', '1.00', 'Color: Black, Size: XL'),
-(65, 49, 3, 2, '99.98', '199.96', '2.00', 'Size: S'),
-(66, 50, 2, 1, '39.99', '39.99', '1.00', 'Color: Blue, Size: M'),
-(67, 51, 10, 1, '64.99', '64.99', '1.20', 'Size: S'),
-(68, 52, 5, 1, '19.99', '19.99', '1.00', 'Color: Red, Size: L'),
-(69, 53, 8, 2, '119.98', '239.96', '2.20', 'Size: M'),
-(70, 54, 7, 1, '59.99', '59.99', '1.50', 'Color: Green, Size: L'),
-(71, 55, 3, 2, '99.98', '199.96', '2.00', 'Size: XL'),
-(72, 56, 2, 1, '39.99', '39.99', '1.00', 'Color: White, Size: S'),
-(73, 57, 7, 1, '59.99', '59.99', '1.50', 'Size: M'),
-(74, 58, 6, 2, '89.98', '179.96', '2.00', 'Color: Blue, Size: L'),
-(75, 59, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(76, 60, 4, 2, '69.98', '139.96', '1.80', 'Color: Green, Size: M'),
-(77, 61, 10, 3, '194.97', '584.91', '2.40', 'Size: L'),
-(78, 62, 5, 1, '19.99', '19.99', '1.00', 'Color: Red, Size: XL'),
-(79, 63, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(80, 64, 7, 1, '59.99', '59.99', '1.50', 'Color: Black, Size: M'),
-(81, 65, 6, 2, '89.98', '179.96', '2.00', 'Size: XL'),
-(82, 66, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(83, 67, 3, 2, '99.98', '199.96', '2.00', 'Color: Blue, Size: M'),
-(84, 68, 2, 1, '39.99', '39.99', '1.00', 'Color: Red, Size: S'),
-(85, 69, 5, 1, '19.99', '19.99', '1.00', 'Size: L'),
-(86, 70, 8, 2, '119.98', '239.96', '2.20', 'Color: Black, Size: XL'),
-(87, 71, 7, 1, '59.99', '59.99', '1.50', 'Size: M'),
-(88, 72, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(89, 73, 9, 1, '24.99', '24.99', '1.00', 'Color: Green, Size: L'),
-(90, 74, 3, 2, '99.98', '199.96', '2.00', 'Size: XL'),
-(91, 75, 2, 1, '39.99', '39.99', '1.00', 'Size: M'),
-(92, 76, 7, 1, '59.99', '59.99', '1.50', 'Color: White, Size: L'),
-(93, 77, 6, 2, '89.98', '179.96', '2.00', 'Size: L'),
-(94, 78, 1, 1, '29.99', '29.99', '1.00', 'Color: Red, Size: M'),
-(95, 79, 3, 2, '99.98', '199.96', '2.00', 'Size: S'),
-(96, 80, 8, 2, '119.98', '239.96', '2.20', 'Color: Black, Size: XL'),
-(97, 81, 7, 1, '59.99', '59.99', '1.50', 'Size: S'),
-(98, 82, 6, 2, '89.98', '179.96', '2.00', 'Color: Blue, Size: L'),
-(99, 83, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(100, 84, 4, 2, '69.98', '139.96', '1.80', 'Color: Red, Size: XL'),
-(101, 85, 5, 1, '19.99', '19.99', '1.00', 'Color: Green, Size: M'),
-(102, 86, 8, 2, '119.98', '239.96', '2.20', 'Size: L'),
-(103, 87, 7, 1, '59.99', '59.99', '1.50', 'Size: M'),
-(104, 88, 6, 2, '89.98', '179.96', '2.00', 'Size: XL'),
-(105, 89, 2, 1, '39.99', '39.99', '1.00', 'Color: White, Size: S'),
-(106, 90, 10, 3, '194.97', '584.91', '2.40', 'Color: Blue, Size: S'),
-(107, 91, 5, 1, '19.99', '19.99', '1.00', 'Size: M'),
-(108, 92, 8, 2, '119.98', '239.96', '2.20', 'Size: XL'),
-(109, 93, 7, 1, '59.99', '59.99', '1.50', 'Size: L'),
-(110, 94, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(111, 95, 3, 2, '99.98', '199.96', '2.00', 'Color: Blue, Size: M'),
-(112, 96, 2, 1, '39.99', '39.99', '1.00', 'Size: XL'),
-(113, 97, 8, 2, '119.98', '239.96', '2.20', 'Color: Green, Size: S'),
-(114, 98, 7, 1, '59.99', '59.99', '1.50', 'Size: S'),
-(115, 99, 6, 2, '89.98', '179.96', '2.00', 'Color: Red, Size: L'),
-(116, 100, 1, 1, '29.99', '29.99', '1.00', 'Size: M'),
-(117, 101, 4, 2, '69.98', '139.96', '1.80', 'Color: Blue, Size: S'),
-(118, 102, 10, 3, '194.97', '584.91', '2.40', 'Size: XL'),
-(119, 103, 5, 1, '19.99', '19.99', '1.00', 'Size: L'),
-(120, 104, 8, 2, '119.98', '239.96', '2.20', 'Color: White, Size: M'),
-(121, 105, 5, 1, '19.99', '19.99', '1.00', 'Color: Black, Size: S'),
-(122, 106, 8, 2, '119.98', '239.96', '2.20', 'Size: M'),
-(123, 107, 7, 1, '59.99', '59.99', '1.50', 'Size: XL'),
-(124, 108, 6, 2, '89.98', '179.96', '2.00', 'Color: Green, Size: L'),
-(125, 109, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(126, 110, 4, 2, '69.98', '139.96', '1.80', 'Color: Red, Size: M'),
-(127, 111, 10, 3, '194.97', '584.91', '2.40', 'Size: S'),
-(128, 112, 5, 1, '19.99', '19.99', '1.00', 'Color: Blue, Size: XL'),
-(129, 113, 8, 2, '119.98', '239.96', '2.20', 'Size: L'),
-(130, 114, 7, 1, '59.99', '59.99', '1.50', 'Color: White, Size: M'),
-(131, 115, 6, 2, '89.98', '179.96', '2.00', 'Size: XL'),
-(132, 116, 1, 1, '29.99', '29.99', '1.00', 'Size: M'),
-(133, 117, 4, 2, '69.98', '139.96', '1.80', 'Color: Black, Size: S'),
-(134, 118, 10, 3, '194.97', '584.91', '2.40', 'Size: L'),
-(135, 119, 5, 1, '19.99', '19.99', '1.00', 'Color: Green, Size: S'),
-(136, 120, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(137, 121, 7, 1, '59.99', '59.99', '1.50', 'Color: Red, Size: XL'),
-(138, 122, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(139, 123, 1, 1, '29.99', '29.99', '1.00', 'Color: Blue, Size: L'),
-(140, 124, 4, 2, '69.98', '139.96', '1.80', 'Size: XL'),
-(141, 125, 7, 1, '59.99', '59.99', '1.50', 'Size: M'),
-(142, 126, 6, 2, '89.98', '179.96', '2.00', 'Color: Green, Size: L'),
-(143, 127, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(144, 128, 4, 2, '69.98', '139.96', '1.80', 'Color: Red, Size: M'),
-(145, 129, 10, 3, '194.97', '584.91', '2.40', 'Size: S'),
-(146, 130, 5, 1, '19.99', '19.99', '1.00', 'Color: Blue, Size: XL'),
-(147, 131, 8, 2, '119.98', '239.96', '2.20', 'Size: L'),
-(148, 132, 7, 1, '59.99', '59.99', '1.50', 'Color: White, Size: M'),
-(149, 133, 6, 2, '89.98', '179.96', '2.00', 'Size: XL'),
-(150, 134, 1, 1, '29.99', '29.99', '1.00', 'Size: M'),
-(151, 135, 4, 2, '69.98', '139.96', '1.80', 'Color: Black, Size: S'),
-(152, 136, 10, 3, '194.97', '584.91', '2.40', 'Size: L'),
-(153, 137, 5, 1, '19.99', '19.99', '1.00', 'Color: Green, Size: S'),
-(154, 138, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(155, 139, 7, 1, '59.99', '59.99', '1.50', 'Color: Red, Size: XL'),
-(156, 140, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(157, 141, 1, 1, '29.99', '29.99', '1.00', 'Color: Blue, Size: L'),
-(158, 142, 4, 2, '69.98', '139.96', '1.80', 'Size: XL'),
-(159, 143, 5, 1, '19.99', '19.99', '1.00', 'Color: White, Size: S'),
-(160, 144, 8, 2, '119.98', '239.96', '2.20', 'Size: M'),
-(161, 145, 7, 1, '59.99', '59.99', '1.50', 'Size: XL'),
-(162, 146, 6, 2, '89.98', '179.96', '2.00', 'Color: Blue, Size: S'),
-(163, 147, 1, 1, '29.99', '29.99', '1.00', 'Size: M'),
-(164, 148, 4, 2, '69.98', '139.96', '1.80', 'Color: Green, Size: L'),
-(165, 149, 10, 3, '194.97', '584.91', '2.40', 'Size: S'),
-(166, 150, 5, 1, '19.99', '19.99', '1.00', 'Color: Red, Size: XL'),
-(167, 151, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(168, 152, 7, 1, '59.99', '59.99', '1.50', 'Color: Black, Size: M'),
-(169, 153, 6, 2, '89.98', '179.96', '2.00', 'Size: XL'),
-(170, 154, 1, 1, '29.99', '29.99', '1.00', 'Size: S'),
-(171, 155, 4, 2, '69.98', '139.96', '1.80', 'Color: White, Size: L'),
-(172, 156, 10, 3, '194.97', '584.91', '2.40', 'Size: L'),
-(173, 157, 5, 1, '19.99', '19.99', '1.00', 'Color: Blue, Size: M'),
-(174, 158, 8, 2, '119.98', '239.96', '2.20', 'Size: XL'),
-(175, 159, 7, 1, '59.99', '59.99', '1.50', 'Size: S'),
-(176, 160, 6, 2, '89.98', '179.96', '2.00', 'Color: Green, Size: S'),
-(177, 161, 1, 1, '29.99', '29.99', '1.00', 'Size: L'),
-(178, 162, 4, 2, '69.98', '139.96', '1.80', 'Color: Red, Size: XL'),
-(179, 163, 5, 1, '19.99', '19.99', '1.00', 'Color: Black, Size: XL'),
-(180, 164, 8, 2, '119.98', '239.96', '2.20', 'Size: S'),
-(181, 165, 7, 1, '59.99', '59.99', '1.50', 'Color: White, Size: M'),
-(182, 166, 6, 2, '89.98', '179.96', '2.00', 'Size: S'),
-(183, 167, 1, 1, '29.99', '29.99', '1.00', 'Color: Blue, Size: L');
+(1, 1, 1, 2, 29.99, 59.98, 1.50, 'Color: Blue, Size: M'),
+(2, 1, 3, 1, 49.99, 49.99, 1.00, 'Size: L'),
+(3, 2, 5, 3, 19.99, 59.97, 1.20, 'Color: Green, Size: S'),
+(4, 3, 2, 1, 39.99, 39.99, 1.00, 'Size: XL'),
+(5, 4, 7, 2, 79.99, 159.98, 2.00, 'Size: M'),
+(6, 4, 8, 1, 59.99, 59.99, 1.50, 'Color: Red, Size: S'),
+(7, 5, 4, 1, 34.99, 34.99, 0.80, 'Color: Black, Size: M'),
+(8, 5, 9, 2, 24.99, 49.98, 1.00, 'Size: S'),
+(9, 5, 10, 1, 64.99, 64.99, 1.20, 'Color: White, Size: L'),
+(10, 6, 6, 2, 44.99, 89.98, 1.50, 'Size: XL'),
+(11, 7, 3, 1, 49.99, 49.99, 1.00, 'Color: Blue, Size: S'),
+(12, 8, 7, 2, 79.99, 159.98, 1.80, 'Color: Green, Size: M'),
+(13, 9, 8, 1, 59.99, 59.99, 1.20, 'Size: L'),
+(14, 10, 1, 2, 29.99, 59.98, 1.50, 'Color: Red, Size: M'),
+(15, 10, 4, 1, 34.99, 34.99, 0.80, 'Size: S'),
+(16, 11, 10, 1, 64.99, 64.99, 1.00, 'Color: Black, Size: XL'),
+(17, 12, 5, 3, 19.99, 59.97, 1.20, 'Size: M'),
+(18, 13, 2, 1, 39.99, 39.99, 1.00, 'Color: White, Size: S'),
+(19, 14, 9, 2, 24.99, 49.98, 1.50, 'Color: Blue, Size: L'),
+(20, 14, 6, 1, 44.99, 44.99, 1.20, 'Size: S'),
+(21, 15, 8, 1, 59.99, 59.99, 1.50, 'Color: Blue, Size: M'),
+(22, 15, 7, 2, 79.99, 159.98, 1.80, 'Size: S'),
+(23, 16, 3, 1, 49.99, 49.99, 1.00, 'Color: Red, Size: L'),
+(24, 17, 2, 2, 79.98, 159.96, 1.80, 'Color: Green, Size: M'),
+(25, 17, 6, 1, 44.99, 44.99, 1.20, 'Size: XL'),
+(26, 18, 1, 1, 29.99, 29.99, 1.00, 'Color: White, Size: S'),
+(27, 18, 4, 2, 69.98, 139.96, 1.80, 'Size: M'),
+(28, 19, 10, 3, 194.97, 584.91, 2.40, 'Color: Blue, Size: L'),
+(29, 20, 5, 1, 19.99, 19.99, 1.00, 'Size: S'),
+(30, 20, 8, 2, 119.98, 239.96, 2.20, 'Color: Red, Size: XL'),
+(31, 21, 7, 1, 59.99, 59.99, 1.50, 'Color: Black, Size: M'),
+(32, 21, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(33, 21, 9, 1, 24.99, 24.99, 1.00, 'Color: White, Size: L'),
+(34, 22, 3, 2, 99.98, 199.96, 2.00, 'Color: Green, Size: S'),
+(35, 22, 2, 1, 39.99, 39.99, 1.00, 'Size: M'),
+(36, 23, 5, 1, 19.99, 19.99, 1.00, 'Size: L'),
+(37, 24, 8, 2, 119.98, 239.96, 2.20, 'Color: Red, Size: M'),
+(38, 25, 10, 1, 64.99, 64.99, 1.20, 'Size: S'),
+(39, 26, 1, 1, 29.99, 29.99, 1.00, 'Color: Blue, Size: L'),
+(40, 27, 2, 2, 79.98, 159.96, 1.80, 'Color: White, Size: S'),
+(41, 27, 6, 1, 44.99, 44.99, 1.20, 'Size: XL'),
+(42, 28, 7, 1, 59.99, 59.99, 1.50, 'Color: Green, Size: M'),
+(43, 29, 3, 2, 99.98, 199.96, 2.00, 'Size: S'),
+(44, 30, 2, 1, 39.99, 39.99, 1.00, 'Color: Blue, Size: M'),
+(45, 31, 10, 1, 64.99, 64.99, 1.20, 'Color: Red, Size: L'),
+(46, 32, 5, 1, 19.99, 19.99, 1.00, 'Size: S'),
+(47, 33, 8, 2, 119.98, 239.96, 2.20, 'Color: White, Size: M'),
+(48, 34, 7, 1, 59.99, 59.99, 1.50, 'Size: L'),
+(49, 35, 3, 2, 99.98, 199.96, 2.00, 'Color: Green, Size: XL'),
+(50, 36, 2, 1, 29.99, 29.99, 1.00, 'Size: M'),
+(51, 37, 5, 1, 19.99, 19.99, 1.00, 'Size: XL'),
+(52, 37, 8, 2, 119.98, 239.96, 2.20, 'Color: Blue, Size: S'),
+(53, 38, 3, 2, 99.98, 199.96, 2.00, 'Size: L'),
+(54, 39, 2, 1, 39.99, 39.99, 1.00, 'Color: Green, Size: S'),
+(55, 40, 7, 1, 59.99, 59.99, 1.50, 'Size: M'),
+(56, 41, 6, 2, 89.98, 179.96, 2.00, 'Color: Red, Size: XL'),
+(57, 42, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(58, 43, 4, 2, 69.98, 139.96, 1.80, 'Color: White, Size: M'),
+(59, 44, 10, 3, 194.97, 584.91, 2.40, 'Size: L'),
+(60, 45, 5, 1, 19.99, 19.99, 1.00, 'Color: Blue, Size: XL'),
+(61, 45, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(62, 46, 7, 1, 59.99, 59.99, 1.50, 'Color: Red, Size: M'),
+(63, 47, 6, 2, 89.98, 179.96, 2.00, 'Size: L'),
+(64, 48, 9, 1, 24.99, 24.99, 1.00, 'Color: Black, Size: XL'),
+(65, 49, 3, 2, 99.98, 199.96, 2.00, 'Size: S'),
+(66, 50, 2, 1, 39.99, 39.99, 1.00, 'Color: Blue, Size: M'),
+(67, 51, 10, 1, 64.99, 64.99, 1.20, 'Size: S'),
+(68, 52, 5, 1, 19.99, 19.99, 1.00, 'Color: Red, Size: L'),
+(69, 53, 8, 2, 119.98, 239.96, 2.20, 'Size: M'),
+(70, 54, 7, 1, 59.99, 59.99, 1.50, 'Color: Green, Size: L'),
+(71, 55, 3, 2, 99.98, 199.96, 2.00, 'Size: XL'),
+(72, 56, 2, 1, 39.99, 39.99, 1.00, 'Color: White, Size: S'),
+(73, 57, 7, 1, 59.99, 59.99, 1.50, 'Size: M'),
+(74, 58, 6, 2, 89.98, 179.96, 2.00, 'Color: Blue, Size: L'),
+(75, 59, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(76, 60, 4, 2, 69.98, 139.96, 1.80, 'Color: Green, Size: M'),
+(77, 61, 10, 3, 194.97, 584.91, 2.40, 'Size: L'),
+(78, 62, 5, 1, 19.99, 19.99, 1.00, 'Color: Red, Size: XL'),
+(79, 63, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(80, 64, 7, 1, 59.99, 59.99, 1.50, 'Color: Black, Size: M'),
+(81, 65, 6, 2, 89.98, 179.96, 2.00, 'Size: XL'),
+(82, 66, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(83, 67, 3, 2, 99.98, 199.96, 2.00, 'Color: Blue, Size: M'),
+(84, 68, 2, 1, 39.99, 39.99, 1.00, 'Color: Red, Size: S'),
+(85, 69, 5, 1, 19.99, 19.99, 1.00, 'Size: L'),
+(86, 70, 8, 2, 119.98, 239.96, 2.20, 'Color: Black, Size: XL'),
+(87, 71, 7, 1, 59.99, 59.99, 1.50, 'Size: M'),
+(88, 72, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(89, 73, 9, 1, 24.99, 24.99, 1.00, 'Color: Green, Size: L'),
+(90, 74, 3, 2, 99.98, 199.96, 2.00, 'Size: XL'),
+(91, 75, 2, 1, 39.99, 39.99, 1.00, 'Size: M'),
+(92, 76, 7, 1, 59.99, 59.99, 1.50, 'Color: White, Size: L'),
+(93, 77, 6, 2, 89.98, 179.96, 2.00, 'Size: L'),
+(94, 78, 1, 1, 29.99, 29.99, 1.00, 'Color: Red, Size: M'),
+(95, 79, 3, 2, 99.98, 199.96, 2.00, 'Size: S'),
+(96, 80, 8, 2, 119.98, 239.96, 2.20, 'Color: Black, Size: XL'),
+(97, 81, 7, 1, 59.99, 59.99, 1.50, 'Size: S'),
+(98, 82, 6, 2, 89.98, 179.96, 2.00, 'Color: Blue, Size: L'),
+(99, 83, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(100, 84, 4, 2, 69.98, 139.96, 1.80, 'Color: Red, Size: XL'),
+(101, 85, 5, 1, 19.99, 19.99, 1.00, 'Color: Green, Size: M'),
+(102, 86, 8, 2, 119.98, 239.96, 2.20, 'Size: L'),
+(103, 87, 7, 1, 59.99, 59.99, 1.50, 'Size: M'),
+(104, 88, 6, 2, 89.98, 179.96, 2.00, 'Size: XL'),
+(105, 89, 2, 1, 39.99, 39.99, 1.00, 'Color: White, Size: S'),
+(106, 90, 10, 3, 194.97, 584.91, 2.40, 'Color: Blue, Size: S'),
+(107, 91, 5, 1, 19.99, 19.99, 1.00, 'Size: M'),
+(108, 92, 8, 2, 119.98, 239.96, 2.20, 'Size: XL'),
+(109, 93, 7, 1, 59.99, 59.99, 1.50, 'Size: L'),
+(110, 94, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(111, 95, 3, 2, 99.98, 199.96, 2.00, 'Color: Blue, Size: M'),
+(112, 96, 2, 1, 39.99, 39.99, 1.00, 'Size: XL'),
+(113, 97, 8, 2, 119.98, 239.96, 2.20, 'Color: Green, Size: S'),
+(114, 98, 7, 1, 59.99, 59.99, 1.50, 'Size: S'),
+(115, 99, 6, 2, 89.98, 179.96, 2.00, 'Color: Red, Size: L'),
+(116, 100, 1, 1, 29.99, 29.99, 1.00, 'Size: M'),
+(117, 101, 4, 2, 69.98, 139.96, 1.80, 'Color: Blue, Size: S'),
+(118, 102, 10, 3, 194.97, 584.91, 2.40, 'Size: XL'),
+(119, 103, 5, 1, 19.99, 19.99, 1.00, 'Size: L'),
+(120, 104, 8, 2, 119.98, 239.96, 2.20, 'Color: White, Size: M'),
+(121, 105, 5, 1, 19.99, 19.99, 1.00, 'Color: Black, Size: S'),
+(122, 106, 8, 2, 119.98, 239.96, 2.20, 'Size: M'),
+(123, 107, 7, 1, 59.99, 59.99, 1.50, 'Size: XL'),
+(124, 108, 6, 2, 89.98, 179.96, 2.00, 'Color: Green, Size: L'),
+(125, 109, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(126, 110, 4, 2, 69.98, 139.96, 1.80, 'Color: Red, Size: M'),
+(127, 111, 10, 3, 194.97, 584.91, 2.40, 'Size: S'),
+(128, 112, 5, 1, 19.99, 19.99, 1.00, 'Color: Blue, Size: XL'),
+(129, 113, 8, 2, 119.98, 239.96, 2.20, 'Size: L'),
+(130, 114, 7, 1, 59.99, 59.99, 1.50, 'Color: White, Size: M'),
+(131, 115, 6, 2, 89.98, 179.96, 2.00, 'Size: XL'),
+(132, 116, 1, 1, 29.99, 29.99, 1.00, 'Size: M'),
+(133, 117, 4, 2, 69.98, 139.96, 1.80, 'Color: Black, Size: S'),
+(134, 118, 10, 3, 194.97, 584.91, 2.40, 'Size: L'),
+(135, 119, 5, 1, 19.99, 19.99, 1.00, 'Color: Green, Size: S'),
+(136, 120, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(137, 121, 7, 1, 59.99, 59.99, 1.50, 'Color: Red, Size: XL'),
+(138, 122, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(139, 123, 1, 1, 29.99, 29.99, 1.00, 'Color: Blue, Size: L'),
+(140, 124, 4, 2, 69.98, 139.96, 1.80, 'Size: XL'),
+(141, 125, 7, 1, 59.99, 59.99, 1.50, 'Size: M'),
+(142, 126, 6, 2, 89.98, 179.96, 2.00, 'Color: Green, Size: L'),
+(143, 127, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(144, 128, 4, 2, 69.98, 139.96, 1.80, 'Color: Red, Size: M'),
+(145, 129, 10, 3, 194.97, 584.91, 2.40, 'Size: S'),
+(146, 130, 5, 1, 19.99, 19.99, 1.00, 'Color: Blue, Size: XL'),
+(147, 131, 8, 2, 119.98, 239.96, 2.20, 'Size: L'),
+(148, 132, 7, 1, 59.99, 59.99, 1.50, 'Color: White, Size: M'),
+(149, 133, 6, 2, 89.98, 179.96, 2.00, 'Size: XL'),
+(150, 134, 1, 1, 29.99, 29.99, 1.00, 'Size: M'),
+(151, 135, 4, 2, 69.98, 139.96, 1.80, 'Color: Black, Size: S'),
+(152, 136, 10, 3, 194.97, 584.91, 2.40, 'Size: L'),
+(153, 137, 5, 1, 19.99, 19.99, 1.00, 'Color: Green, Size: S'),
+(154, 138, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(155, 139, 7, 1, 59.99, 59.99, 1.50, 'Color: Red, Size: XL'),
+(156, 140, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(157, 141, 1, 1, 29.99, 29.99, 1.00, 'Color: Blue, Size: L'),
+(158, 142, 4, 2, 69.98, 139.96, 1.80, 'Size: XL'),
+(159, 143, 5, 1, 19.99, 19.99, 1.00, 'Color: White, Size: S'),
+(160, 144, 8, 2, 119.98, 239.96, 2.20, 'Size: M'),
+(161, 145, 7, 1, 59.99, 59.99, 1.50, 'Size: XL'),
+(162, 146, 6, 2, 89.98, 179.96, 2.00, 'Color: Blue, Size: S'),
+(163, 147, 1, 1, 29.99, 29.99, 1.00, 'Size: M'),
+(164, 148, 4, 2, 69.98, 139.96, 1.80, 'Color: Green, Size: L'),
+(165, 149, 10, 3, 194.97, 584.91, 2.40, 'Size: S'),
+(166, 150, 5, 1, 19.99, 19.99, 1.00, 'Color: Red, Size: XL'),
+(167, 151, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(168, 152, 7, 1, 59.99, 59.99, 1.50, 'Color: Black, Size: M'),
+(169, 153, 6, 2, 89.98, 179.96, 2.00, 'Size: XL'),
+(170, 154, 1, 1, 29.99, 29.99, 1.00, 'Size: S'),
+(171, 155, 4, 2, 69.98, 139.96, 1.80, 'Color: White, Size: L'),
+(172, 156, 10, 3, 194.97, 584.91, 2.40, 'Size: L'),
+(173, 157, 5, 1, 19.99, 19.99, 1.00, 'Color: Blue, Size: M'),
+(174, 158, 8, 2, 119.98, 239.96, 2.20, 'Size: XL'),
+(175, 159, 7, 1, 59.99, 59.99, 1.50, 'Size: S'),
+(176, 160, 6, 2, 89.98, 179.96, 2.00, 'Color: Green, Size: S'),
+(177, 161, 1, 1, 29.99, 29.99, 1.00, 'Size: L'),
+(178, 162, 4, 2, 69.98, 139.96, 1.80, 'Color: Red, Size: XL'),
+(179, 163, 5, 1, 19.99, 19.99, 1.00, 'Color: Black, Size: XL'),
+(180, 164, 8, 2, 119.98, 239.96, 2.20, 'Size: S'),
+(181, 165, 7, 1, 59.99, 59.99, 1.50, 'Color: White, Size: M'),
+(182, 166, 6, 2, 89.98, 179.96, 2.00, 'Size: S'),
+(183, 167, 1, 1, 29.99, 29.99, 1.00, 'Color: Blue, Size: L'),
+(184, 168, 6, 2, 44.99, 44.99, 1.20, 'Size: XL'),
+(186, 169, 9, 1, 42.99, 42.99, NULL, NULL),
+(187, 170, 9, 1, 42.99, 42.99, NULL, NULL),
+(188, 170, 13, 1, 54.99, 54.99, NULL, NULL),
+(189, 170, 4, 1, 89.99, 89.99, NULL, NULL),
+(190, 171, 14, 1, 64.99, 64.99, NULL, NULL),
+(191, 171, 15, 1, 24.99, 24.99, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -572,188 +606,192 @@ INSERT INTO `orderitems` (`order_item_id`, `order_id`, `product_id`, `quantity`,
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
+  `order_id` int NOT NULL,
+  `customer_id` int DEFAULT NULL,
   `order_date` date DEFAULT NULL,
   `total_amount` decimal(10,2) DEFAULT NULL,
   `order_status` varchar(20) DEFAULT NULL,
   `payment_method` varchar(50) DEFAULT NULL,
   `shipping_method` varchar(50) DEFAULT NULL,
   `delivery_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `total_amount`, `order_status`, `payment_method`, `shipping_method`, `delivery_date`) VALUES
-(1, 1, '2023-06-01', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-10'),
-(2, 3, '2023-06-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-09'),
-(3, 5, '2023-06-03', '54.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(4, 2, '2023-06-04', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-11'),
-(5, 4, '2023-06-05', '39.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-08'),
-(6, 7, '2023-06-06', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(7, 6, '2023-06-07', '149.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-12'),
-(8, 8, '2023-06-08', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-07'),
-(9, 10, '2023-06-09', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(10, 9, '2023-06-10', '119.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-13'),
-(11, 12, '2023-06-11', '69.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-18'),
-(12, 14, '2023-06-12', '129.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-17'),
-(13, 15, '2023-06-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(14, 11, '2023-06-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-19'),
-(15, 13, '2023-06-15', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-16'),
-(16, 16, '2023-06-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(17, 19, '2023-06-17', '119.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-20'),
-(18, 20, '2023-06-18', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-15'),
-(19, 17, '2023-06-19', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(20, 18, '2023-06-20', '94.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-21'),
-(21, 6, '2023-06-21', '59.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-28'),
-(22, 10, '2023-06-22', '144.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-27'),
-(23, 9, '2023-06-23', '44.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(24, 7, '2023-06-24', '84.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-29'),
-(25, 11, '2023-06-25', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-26'),
-(26, 13, '2023-06-26', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(27, 15, '2023-06-27', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-30'),
-(28, 8, '2023-06-28', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-06-25'),
-(29, 12, '2023-06-29', '69.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(30, 16, '2023-06-30', '104.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-01'),
-(31, 19, '2023-07-01', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-08'),
-(32, 17, '2023-07-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-07'),
-(33, 20, '2023-07-03', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(34, 6, '2023-07-04', '79.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-09'),
-(35, 8, '2023-07-05', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-06'),
-(36, 9, '2023-07-06', '69.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(37, 12, '2023-07-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-10'),
-(38, 10, '2023-07-08', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-05'),
-(39, 15, '2023-07-09', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(40, 11, '2023-07-10', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-11'),
-(41, 3, '2023-07-11', '59.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-18'),
-(42, 5, '2023-07-12', '134.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-17'),
-(43, 12, '2023-07-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(44, 7, '2023-07-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-19'),
-(45, 9, '2023-07-15', '39.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-16'),
-(46, 11, '2023-07-16', '79.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(47, 6, '2023-07-17', '119.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-20'),
-(48, 10, '2023-07-18', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-15'),
-(49, 8, '2023-07-19', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(50, 13, '2023-07-20', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-21'),
-(51, 14, '2023-07-21', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-28'),
-(52, 19, '2023-07-22', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-27'),
-(53, 20, '2023-07-23', '59.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(54, 2, '2023-07-24', '69.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-29'),
-(55, 4, '2023-07-25', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-07-26'),
-(56, 16, '2023-07-26', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(57, 18, '2023-07-27', '134.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-30'),
-(58, 1, '2023-07-28', '59.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-04'),
-(59, 3, '2023-07-29', '129.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-03'),
-(60, 5, '2023-07-30', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(61, 130, '2023-08-01', '69.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-08'),
-(62, 70, '2023-08-02', '144.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-07'),
-(63, 44, '2023-08-03', '44.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(64, 87, '2023-08-04', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-09'),
-(65, 52, '2023-08-05', '39.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-06'),
-(66, 111, '2023-08-06', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(67, 99, '2023-08-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-10'),
-(68, 22, '2023-08-08', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-05'),
-(69, 125, '2023-08-09', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(70, 88, '2023-08-10', '94.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-11'),
-(71, 33, '2023-08-11', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-18'),
-(72, 67, '2023-08-12', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-17'),
-(73, 45, '2023-08-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(74, 21, '2023-08-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-19'),
-(75, 31, '2023-08-15', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-16'),
-(76, 41, '2023-08-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(77, 132, '2023-08-17', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-20'),
-(78, 142, '2023-08-18', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-15'),
-(79, 68, '2023-08-19', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(80, 86, '2023-08-20', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-21'),
-(81, 2, '2023-08-21', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-28'),
-(82, 59, '2023-08-22', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-27'),
-(83, 87, '2023-08-23', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(84, 99, '2023-08-24', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-29'),
-(85, 104, '2023-08-25', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-26'),
-(86, 123, '2023-08-26', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(87, 46, '2023-08-27', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-30'),
-(88, 57, '2023-08-28', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-08-25'),
-(89, 76, '2023-08-29', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(90, 54, '2023-08-30', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-31'),
-(91, 14, '2023-09-01', '59.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-08'),
-(92, 25, '2023-09-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-07'),
-(93, 34, '2023-09-03', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(94, 48, '2023-09-04', '84.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-09'),
-(95, 49, '2023-09-05', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-06'),
-(96, 50, '2023-09-06', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(97, 82, '2023-09-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-10'),
-(98, 36, '2023-09-08', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-05'),
-(99, 29, '2023-09-09', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(100, 65, '2023-09-10', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-11'),
-(101, 73, '2023-09-11', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-18'),
-(102, 85, '2023-09-12', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-17'),
-(103, 38, '2023-09-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(104, 78, '2023-09-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-19'),
-(105, 110, '2023-09-15', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-16'),
-(106, 137, '2023-09-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(107, 91, '2023-09-17', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-20'),
-(108, 102, '2023-09-18', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-09-15'),
-(109, 49, '2023-09-19', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(110, 61, '2023-09-20', '104.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-21'),
-(111, 37, '2023-10-01', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-08'),
-(112, 40, '2023-10-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-07'),
-(113, 69, '2023-10-03', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(114, 111, '2023-10-04', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-09'),
-(115, 135, '2023-10-05', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-06'),
-(116, 116, '2023-10-06', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(117, 119, '2023-10-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-10'),
-(118, 129, '2023-10-08', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-05'),
-(119, 134, '2023-10-09', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(120, 98, '2023-10-10', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-11'),
-(121, 56, '2023-10-11', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-18'),
-(122, 91, '2023-10-12', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-17'),
-(123, 48, '2023-10-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(124, 81, '2023-10-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-19'),
-(125, 100, '2023-10-15', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-16'),
-(126, 102, '2023-10-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(127, 76, '2023-10-17', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-20'),
-(128, 58, '2023-10-18', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-10-15'),
-(129, 118, '2023-10-19', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(130, 84, '2023-10-20', '104.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-21'),
-(131, 51, '2023-11-01', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-08'),
-(132, 115, '2023-11-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-07'),
-(133, 39, '2023-11-03', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(134, 100, '2023-11-04', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-09'),
-(135, 138, '2023-11-05', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-06'),
-(136, 132, '2023-11-06', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(137, 127, '2023-11-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-10'),
-(138, 90, '2023-11-08', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-05'),
-(139, 64, '2023-11-09', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(140, 139, '2023-11-10', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-11'),
-(141, 59, '2023-11-11', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-18'),
-(142, 128, '2023-11-12', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-17'),
-(143, 111, '2023-11-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(144, 76, '2023-11-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-19'),
-(145, 114, '2023-11-15', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-16'),
-(146, 125, '2023-11-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(147, 109, '2023-11-17', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-20'),
-(148, 137, '2023-11-18', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-11-15'),
-(149, 117, '2023-11-19', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(150, 125, '2023-11-20', '104.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-21'),
-(151, 3, '2023-12-01', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-08'),
-(152, 76, '2023-12-02', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-12-07'),
-(153, 112, '2023-12-03', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(154, 20, '2023-12-04', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-09'),
-(155, 98, '2023-12-05', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-12-06'),
-(156, 7, '2023-12-06', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(157, 145, '2023-12-07', '129.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-10'),
-(158, 6, '2023-12-08', '34.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-12-05'),
-(159, 122, '2023-12-09', '74.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(160, 105, '2023-12-10', '99.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-11'),
-(161, 135, '2023-12-11', '54.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-18'),
-(162, 50, '2023-12-12', '124.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-12-17'),
-(163, 95, '2023-12-13', '49.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(164, 75, '2023-12-14', '89.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-19'),
-(165, 150, '2023-12-15', '29.99', 'Delivered', 'PayPal', 'Express Shipping', '2023-12-16'),
-(166, 139, '2023-12-16', '64.99', 'Processing', 'Credit Card', 'Standard Shipping', NULL),
-(167, 58, '2023-12-17', '139.99', 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-20');
+(1, 1, '2023-06-01', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-10'),
+(2, 3, '2023-06-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-09'),
+(3, 5, '2023-06-03', 54.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(4, 2, '2023-06-04', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-11'),
+(5, 4, '2023-06-05', 39.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-08'),
+(6, 7, '2023-06-06', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(7, 6, '2023-06-07', 149.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-12'),
+(8, 8, '2023-06-08', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-07'),
+(9, 10, '2023-06-09', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(10, 9, '2023-06-10', 119.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-13'),
+(11, 12, '2023-06-11', 69.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-18'),
+(12, 14, '2023-06-12', 129.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-17'),
+(13, 15, '2023-06-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(14, 11, '2023-06-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-19'),
+(15, 13, '2023-06-15', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-16'),
+(16, 16, '2023-06-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(17, 19, '2023-06-17', 119.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-20'),
+(18, 20, '2023-06-18', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-15'),
+(19, 17, '2023-06-19', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(20, 18, '2023-06-20', 94.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-21'),
+(21, 6, '2023-06-21', 59.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-28'),
+(22, 10, '2023-06-22', 144.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-27'),
+(23, 9, '2023-06-23', 44.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(24, 7, '2023-06-24', 84.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-29'),
+(25, 11, '2023-06-25', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-26'),
+(26, 13, '2023-06-26', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(27, 15, '2023-06-27', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-06-30'),
+(28, 8, '2023-06-28', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-06-25'),
+(29, 12, '2023-06-29', 69.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(30, 16, '2023-06-30', 104.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-01'),
+(31, 19, '2023-07-01', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-08'),
+(32, 17, '2023-07-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-07'),
+(33, 20, '2023-07-03', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(34, 6, '2023-07-04', 79.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-09'),
+(35, 8, '2023-07-05', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-06'),
+(36, 9, '2023-07-06', 69.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(37, 12, '2023-07-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-10'),
+(38, 10, '2023-07-08', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-05'),
+(39, 15, '2023-07-09', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(40, 11, '2023-07-10', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-11'),
+(41, 3, '2023-07-11', 59.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-18'),
+(42, 5, '2023-07-12', 134.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-17'),
+(43, 12, '2023-07-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(44, 7, '2023-07-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-19'),
+(45, 9, '2023-07-15', 39.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-16'),
+(46, 11, '2023-07-16', 79.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(47, 6, '2023-07-17', 119.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-20'),
+(48, 10, '2023-07-18', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-15'),
+(49, 8, '2023-07-19', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(50, 13, '2023-07-20', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-21'),
+(51, 14, '2023-07-21', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-28'),
+(52, 19, '2023-07-22', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-27'),
+(53, 20, '2023-07-23', 59.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(54, 2, '2023-07-24', 69.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-29'),
+(55, 4, '2023-07-25', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-07-26'),
+(56, 16, '2023-07-26', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(57, 18, '2023-07-27', 134.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-07-30'),
+(58, 1, '2023-07-28', 59.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-04'),
+(59, 3, '2023-07-29', 129.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-03'),
+(60, 5, '2023-07-30', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(61, 130, '2023-08-01', 69.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-08'),
+(62, 70, '2023-08-02', 144.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-07'),
+(63, 44, '2023-08-03', 44.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(64, 87, '2023-08-04', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-09'),
+(65, 52, '2023-08-05', 39.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-06'),
+(66, 111, '2023-08-06', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(67, 99, '2023-08-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-10'),
+(68, 22, '2023-08-08', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-05'),
+(69, 125, '2023-08-09', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(70, 88, '2023-08-10', 94.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-11'),
+(71, 33, '2023-08-11', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-18'),
+(72, 67, '2023-08-12', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-17'),
+(73, 45, '2023-08-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(74, 21, '2023-08-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-19'),
+(75, 31, '2023-08-15', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-16'),
+(76, 41, '2023-08-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(77, 132, '2023-08-17', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-20'),
+(78, 142, '2023-08-18', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-15'),
+(79, 68, '2023-08-19', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(80, 86, '2023-08-20', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-21'),
+(81, 2, '2023-08-21', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-28'),
+(82, 59, '2023-08-22', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-27'),
+(83, 87, '2023-08-23', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(84, 99, '2023-08-24', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-29'),
+(85, 104, '2023-08-25', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-26'),
+(86, 123, '2023-08-26', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(87, 46, '2023-08-27', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-30'),
+(88, 57, '2023-08-28', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-08-25'),
+(89, 76, '2023-08-29', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(90, 54, '2023-08-30', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-08-31'),
+(91, 14, '2023-09-01', 59.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-08'),
+(92, 25, '2023-09-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-07'),
+(93, 34, '2023-09-03', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(94, 48, '2023-09-04', 84.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-09'),
+(95, 49, '2023-09-05', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-06'),
+(96, 50, '2023-09-06', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(97, 82, '2023-09-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-10'),
+(98, 36, '2023-09-08', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-05'),
+(99, 29, '2023-09-09', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(100, 65, '2023-09-10', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-11'),
+(101, 73, '2023-09-11', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-18'),
+(102, 85, '2023-09-12', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-17'),
+(103, 38, '2023-09-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(104, 78, '2023-09-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-19'),
+(105, 110, '2023-09-15', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-16'),
+(106, 137, '2023-09-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(107, 91, '2023-09-17', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-20'),
+(108, 102, '2023-09-18', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-09-15'),
+(109, 49, '2023-09-19', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(110, 61, '2023-09-20', 104.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-09-21'),
+(111, 37, '2023-10-01', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-08'),
+(112, 40, '2023-10-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-07'),
+(113, 69, '2023-10-03', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(114, 111, '2023-10-04', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-09'),
+(115, 135, '2023-10-05', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-06'),
+(116, 116, '2023-10-06', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(117, 119, '2023-10-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-10'),
+(118, 129, '2023-10-08', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-05'),
+(119, 134, '2023-10-09', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(120, 98, '2023-10-10', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-11'),
+(121, 56, '2023-10-11', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-18'),
+(122, 91, '2023-10-12', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-17'),
+(123, 48, '2023-10-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(124, 81, '2023-10-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-19'),
+(125, 100, '2023-10-15', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-16'),
+(126, 102, '2023-10-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(127, 76, '2023-10-17', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-20'),
+(128, 58, '2023-10-18', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-10-15'),
+(129, 118, '2023-10-19', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(130, 84, '2023-10-20', 104.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-10-21'),
+(131, 51, '2023-11-01', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-08'),
+(132, 115, '2023-11-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-07'),
+(133, 39, '2023-11-03', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(134, 100, '2023-11-04', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-09'),
+(135, 138, '2023-11-05', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-06'),
+(136, 132, '2023-11-06', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(137, 127, '2023-11-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-10'),
+(138, 90, '2023-11-08', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-05'),
+(139, 64, '2023-11-09', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(140, 139, '2023-11-10', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-11'),
+(141, 59, '2023-11-11', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-18'),
+(142, 128, '2023-11-12', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-17'),
+(143, 111, '2023-11-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(144, 76, '2023-11-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-19'),
+(145, 114, '2023-11-15', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-16'),
+(146, 125, '2023-11-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(147, 109, '2023-11-17', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-20'),
+(148, 137, '2023-11-18', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-11-15'),
+(149, 117, '2023-11-19', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(150, 125, '2023-11-20', 104.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-11-21'),
+(151, 3, '2023-12-01', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-08'),
+(152, 76, '2023-12-02', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-12-07'),
+(153, 112, '2023-12-03', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(154, 20, '2023-12-04', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-09'),
+(155, 98, '2023-12-05', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-12-06'),
+(156, 7, '2023-12-06', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(157, 145, '2023-12-07', 129.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-10'),
+(158, 6, '2023-12-08', 34.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-12-05'),
+(159, 122, '2023-12-09', 74.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(160, 105, '2023-12-10', 99.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-11'),
+(161, 135, '2023-12-11', 54.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-18'),
+(162, 50, '2023-12-12', 124.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-12-17'),
+(163, 95, '2023-12-13', 49.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(164, 75, '2023-12-14', 89.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-19'),
+(165, 150, '2023-12-15', 29.99, 'Delivered', 'PayPal', 'Express Shipping', '2023-12-16'),
+(166, 139, '2023-12-16', 64.99, 'Processing', 'Credit Card', 'Standard Shipping', NULL),
+(167, 58, '2023-12-17', 139.99, 'Shipped', 'Credit Card', 'Standard Shipping', '2023-12-20'),
+(168, 1, '2025-11-13', 170.83, 'Delivered', 'Credit Card', 'Standard Shipping', '2025-11-25'),
+(169, 1, '2025-11-26', 42.99, 'Processing', NULL, NULL, NULL),
+(170, 1, '2025-11-26', 187.97, 'Processing', NULL, NULL, NULL),
+(171, 1, '2025-11-27', 80.98, 'Processing', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -762,85 +800,108 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `total_amount`, `
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
+  `product_id` int NOT NULL,
   `product_name` varchar(100) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
+  `description` text,
+  `category_id` int DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `size` varchar(20) DEFAULT NULL,
   `colour` varchar(20) DEFAULT NULL,
   `material` varchar(50) DEFAULT NULL,
-  `sustainability_rating` int(11) DEFAULT NULL,
+  `sustainability_rating` int DEFAULT NULL,
   `manufacturer` varchar(100) DEFAULT NULL,
   `release_date` date DEFAULT NULL,
   `discounted_price` decimal(10,2) DEFAULT NULL,
   `feature_image` varchar(25) NOT NULL,
-  `supplier_Id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `supplier_Id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `description`, `category_id`, `price`, `size`, `colour`, `material`, `sustainability_rating`, `manufacturer`, `release_date`, `discounted_price`, `feature_image`, `supplier_Id`) VALUES
-(1, 'Organic Cotton Men\'s T-Shirt', 'A comfortable and sustainable organic cotton t-shirt for men.', 5, '28.99', 'M', 'White', 'Organic Cotton', 4, 'EcoWear', '2025-11-01', '25.99', '1_1.png', 11),
-(2, 'Recycled Denim Jeans', 'Stylish jeans made from recycled denim material.', 6, '79.99', '32x34', 'Blue', 'Recycled Denim', 5, 'GreenFashion', '2025-09-15', '69.99', '2_1.png', 14),
-(3, 'Women\'s Eco-Friendly Dress', 'A beautiful and eco-friendly dress for women made from sustainable materials.', 7, '59.99', 'S', 'Green', 'Sustainable Fabric', 4, 'SustainStyle', '2025-11-10', '49.99', '3_1.png', 14),
-(4, 'Organic Men\'s Jacket', 'A warm and sustainable jacket for men made from organic materials.', 8, '99.99', 'L', 'Black', 'Organic Cotton', 4, 'EcoWear', '2025-10-20', '89.99', '4_1.png', 6),
-(5, 'Recycled Sneakers', 'Stylish sneakers made from recycled materials.', 9, '49.99', 'US 9', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2024-02-28', '44.99', '5_1.png', 9),
-(6, 'Sustainable Sun Hat', 'A sustainable sun hat made from eco-friendly materials.', 10, '19.99', 'One Size', 'Beige', 'Sustainable Straw', 4, 'SustainStyle', '2023-04-05', '16.99', '6_1.png', 8),
-(7, 'Organic Cotton Women\'s T-Shirt', 'A comfortable and sustainable organic cotton t-shirt for women.', 5, '27.99', 'S', 'Pink', 'Organic Cotton', 4, 'EcoWear', '2023-03-03', '22.99', '7_1.png', 12),
-(8, 'Recycled Men\'s Jeans', 'Eco-friendly jeans made from recycled denim material.', 6, '55.00', '34x36', 'Dark Blue', 'Recycled Denim', 5, 'GreenFashion', '2025-07-10', '59.99', '8_1.png', 15),
-(9, 'Sustainable Women\'s Blouse', 'A stylish and sustainable blouse for women made from eco-friendly materials.', 2, '49.99', 'M', 'White', 'Sustainable Fabric', 4, 'SustainStyle', '2023-03-15', '42.99', '9_1.png', 19),
-(10, 'Recycled Men\'s Jacket', 'Warm and eco-friendly jacket made from recycled materials.', 8, '89.99', 'XL', 'Navy', 'Recycled Fabric', 5, 'GreenFashion', '2023-01-25', '79.99', '10_1.png', 11),
-(11, 'Bamboo Fiber Men\'s Polo Shirt', 'A comfortable and eco-friendly polo shirt for men made from bamboo fiber.', 1, '39.99', 'L', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-04-10', '34.99', '11_1.png', 18),
-(12, 'Recycled Women\'s Skirt', 'Stylish skirt for women made from recycled materials.', 2, '49.99', 'M', 'Purple', 'Recycled Fabric', 4, 'GreenFashion', '2025-08-20', '44.99', '12_1.png', 14),
-(13, 'Organic Hemp Shoes', 'Eco-conscious shoes made from organic hemp material.', 3, '59.99', 'US 8', 'Natural', 'Organic Hemp', 5, 'EcoFootwear', '2023-03-05', '54.99', '13_1.png', 17),
-(14, 'Sustainable Men\'s Cardigan', 'A sustainable cardigan for men made from eco-friendly materials.', 1, '69.99', 'XL', 'Navy', 'Sustainable Fabric', 4, 'EcoWear', '2023-02-25', '64.99', '14_1.png', 2),
-(15, 'Recycled PET Backpack', 'Eco-conscious backpack made from recycled PET bottles.', 4, '29.99', 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-04-01', '24.99', '15_1.png', 17),
-(16, 'Sustainable Linen Women\'s Pants', 'Comfortable and eco-friendly linen pants for women.', 2, '44.99', 'S', 'Beige', 'Organic Linen', 4, 'EcoStyle', '2023-03-15', '39.99', '16_1.png', 1),
-(17, 'Recycled Men\'s Hoodie', 'Stylish hoodie for men made from recycled materials.', 1, '59.99', 'M', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2023-03-08', '54.99', '17_1.png', 11),
-(18, 'Organic Cotton Women\'s Sweater', 'A cozy and eco-friendly sweater for women made from organic cotton.', 2, '54.99', 'L', 'Blue', 'Organic Cotton', 4, 'EcoWear', '2023-02-28', '49.99', '18_1.png', 11),
-(19, 'Bamboo Fiber Men\'s Shorts', 'Comfortable and eco-friendly shorts for men made from bamboo fiber.', 1, '34.99', 'S', 'Black', 'Bamboo Fiber', 5, 'EcoStyle', '2023-03-12', '29.99', 'no-image.png', 2),
-(20, 'Recycled Women\'s Sweater', 'Stylish sweater for women made from recycled materials.', 2, '54.99', 'M', 'Gray', 'Recycled Fabric', 4, 'GreenFashion', '2023-03-03', '49.99', 'no-image.png', 19),
-(21, 'Recycled PET Women\'s Jacket', 'Stylish jacket for women made from recycled PET bottles.', 8, '79.99', 'S', 'Black', 'Recycled PET', 5, 'GreenFashion', '2023-04-18', '74.99', 'no-image.png', 5),
-(22, 'Organic Linen Men\'s Shirt', 'Comfortable and eco-friendly linen shirt for men.', 1, '44.99', 'M', 'White', 'Organic Linen', 4, 'EcoStyle', '2023-04-05', '39.99', 'no-image.png', 11),
-(23, 'Sustainable Women\'s Sandals', 'Eco-conscious sandals made from sustainable materials.', 3, '39.99', 'US 7', 'Brown', 'Sustainable Fabric', 4, 'EcoFootwear', '2023-04-25', '34.99', 'no-image.png', 18),
-(24, 'Recycled Men\'s Belt', 'Stylish belt for men made from recycled materials.', 4, '19.99', 'One Size', 'Black', 'Recycled Leather', 4, 'GreenFashion', '2023-04-14', '14.99', 'no-image.png', 15),
-(25, 'Organic Cotton Women\'s Blouse', 'A sustainable blouse for women made from organic cotton.', 2, '49.99', 'L', 'Red', 'Organic Cotton', 4, 'EcoWear', '2023-04-08', '44.99', 'no-image.png', 3),
-(26, 'Recycled Denim Women\'s Jacket', 'Stylish jacket for women made from recycled denim material.', 8, '69.99', 'S', 'Denim Blue', 'Recycled Denim', 5, 'GreenFashion', '2023-04-21', '64.99', 'no-image.png', 8),
-(27, 'Sustainable Men\'s Beanie', 'A cozy and eco-friendly beanie for men made from sustainable materials.', 10, '24.99', 'One Size', 'Gray', 'Sustainable Fabric', 4, 'EcoStyle', '2023-04-30', '19.99', 'no-image.png', 9),
-(28, 'Organic Linen Women\'s Pants', 'Comfortable and eco-friendly linen pants for women.', 2, '44.99', 'M', 'Beige', 'Organic Linen', 4, 'EcoWear', '2023-04-16', '39.99', 'no-image.png', 1),
-(29, 'Bamboo Fiber Women\'s T-Shirt', 'A comfortable and eco-friendly t-shirt for women made from bamboo fiber.', 2, '29.99', 'S', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-04-11', '24.99', 'no-image.png', 17),
-(30, 'Recycled PET Men\'s Backpack', 'Eco-conscious backpack made from recycled PET bottles.', 4, '34.99', 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-04-09', '29.99', 'no-image.png', 3),
-(31, 'Organic Hemp Women\'s Sandals', 'Eco-conscious sandals made from organic hemp material for women.', 3, '39.99', 'US 7', 'Natural', 'Organic Hemp', 5, 'EcoFootwear', '2023-05-10', '34.99', 'no-image.png', 4),
-(32, 'Sustainable Men\'s Swim Shorts', 'Comfortable and eco-friendly swim shorts for men.', 1, '29.99', 'M', 'Blue', 'Sustainable Fabric', 4, 'EcoStyle', '2023-05-15', '24.99', 'no-image.png', 10),
-(33, 'Recycled PET Women\'s Bag', 'Stylish bag for women made from recycled PET bottles.', 4, '49.99', 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-05-05', '44.99', 'no-image.png', 17),
-(34, 'Organic Linen Men\'s Shorts', 'Comfortable and eco-friendly linen shorts for men.', 1, '34.99', 'L', 'Khaki', 'Organic Linen', 4, 'EcoStyle', '2023-05-18', '29.99', 'no-image.png', 15),
-(35, 'Sustainable Women\'s Scarf', 'A cozy and eco-friendly scarf for women made from sustainable materials.', 2, '19.99', 'One Size', 'Green', 'Sustainable Fabric', 4, 'EcoWear', '2023-05-08', '14.99', 'no-image.png', 2),
-(36, 'Recycled Men\'s Backpack', 'Eco-conscious backpack made from recycled materials for men.', 4, '39.99', 'One Size', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-05-20', '34.99', 'no-image.png', 7),
-(37, 'Bamboo Fiber Women\'s Leggings', 'Comfortable and eco-friendly leggings for women made from bamboo fiber.', 2, '34.99', 'S', 'Gray', 'Bamboo Fiber', 5, 'EcoStyle', '2023-05-10', '29.99', 'no-image.png', 9),
-(38, 'Recycled PET Men\'s Hat', 'Eco-conscious hat made from recycled PET bottles for men.', 10, '24.99', 'One Size', 'Navy', 'Recycled PET', 5, 'GreenFashion', '2023-05-25', '19.99', 'no-image.png', 2),
-(39, 'Organic Hemp Women\'s T-Shirt', 'A comfortable and eco-friendly t-shirt for women made from organic hemp.', 5, '29.99', 'M', 'Blue', 'Organic Hemp', 5, 'EcoStyle', '2023-05-12', '24.99', 'no-image.png', 3),
-(40, 'Sustainable Men\'s Sunglasses', 'Eco-conscious sunglasses made from sustainable materials for men.', 4, '39.99', 'One Size', 'Brown', 'Sustainable Plastic', 5, 'GreenFashion', '2023-05-30', '34.99', 'no-image.png', 8),
-(41, 'Organic Cotton Men\'s Chinos', 'Stylish and eco-friendly chinos for men made from organic cotton.', 1, '49.99', '32x32', 'Olive', 'Organic Cotton', 4, 'EcoStyle', '2023-06-05', '44.99', 'no-image.png', 9),
-(42, 'Recycled PET Women\'s Backpack', 'Eco-conscious backpack made from recycled PET bottles for women.', 4, '44.99', 'One Size', 'Teal', 'Recycled PET', 5, 'GreenFashion', '2023-06-10', '39.99', 'no-image.png', 4),
-(43, 'Sustainable Men\'s Button-Up Shirt', 'A comfortable and eco-friendly button-up shirt for men made from sustainable materials.', 1, '39.99', 'M', 'Navy', 'Sustainable Fabric', 4, 'EcoStyle', '2023-06-15', '34.99', 'no-image.png', 9),
-(44, 'Recycled Women\'s Backpack', 'Eco-conscious backpack made from recycled materials for women.', 4, '44.99', 'One Size', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2023-06-20', '39.99', 'no-image.png', 15),
-(45, 'Organic Hemp Men\'s Shorts', 'Comfortable and eco-friendly shorts for men made from organic hemp.', 1, '34.99', 'L', 'Navy', 'Organic Hemp', 4, 'EcoStyle', '2023-06-25', '29.99', 'no-image.png', 6),
-(46, 'Sustainable Women\'s Belt', 'Stylish and eco-friendly belt for women made from sustainable materials.', 4, '24.99', 'One Size', 'Brown', 'Sustainable Fabric', 4, 'EcoWear', '2023-06-30', '19.99', 'no-image.png', 4),
-(47, 'Recycled Men\'s Trousers', 'Eco-conscious trousers for men made from recycled materials.', 1, '49.99', '34x34', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-07-05', '44.99', 'no-image.png', 2),
-(48, 'Bamboo Fiber Women\'s Tank Top', 'A comfortable and eco-friendly tank top for women made from bamboo fiber.', 2, '29.99', 'S', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-07-10', '24.99', 'no-image.png', 18),
-(49, 'Recycled PET Men\'s Sandals', 'Eco-conscious sandals made from recycled PET bottles for men.', 3, '39.99', 'US 10', 'Black', 'Recycled PET', 5, 'EcoFootwear', '2023-07-15', '34.99', 'no-image.png', 3),
-(50, 'Organic Linen Women\'s Jumpsuit', 'Stylish and eco-friendly jumpsuit for women made from organic linen.', 2, '59.99', 'M', 'Beige', 'Organic Linen', 4, 'EcoStyle', '2023-07-20', '54.99', 'no-image.png', 20),
-(51, 'Recycled Men\'s Blazer', 'Eco-conscious blazer for men made from recycled materials.', 1, '69.99', 'XL', 'Charcoal', 'Recycled Fabric', 5, 'GreenFashion', '2023-07-25', '64.99', 'no-image.png', 12),
-(52, 'Sustainable Women\'s Sunglasses', 'Eco-conscious sunglasses made from sustainable materials for women.', 4, '34.99', 'One Size', 'Brown', 'Sustainable Plastic', 5, 'EcoWear', '2023-08-01', '29.99', 'no-image.png', 18),
-(53, 'Organic Cotton Men\'s Polo Shirt', 'Stylish and eco-friendly polo shirt for men made from organic cotton.', 1, '39.99', 'L', 'Navy', 'Organic Cotton', 4, 'EcoStyle', '2023-08-05', '34.99', 'no-image.png', 13),
-(54, 'Recycled PET Women\'s Hat', 'Eco-conscious hat made from recycled PET bottles for women.', 4, '24.99', 'One Size', 'Pink', 'Recycled PET', 5, 'GreenFashion', '2023-08-10', '19.99', 'no-image.png', 12),
-(55, 'Sustainable Men\'s Chinos', 'Comfortable and eco-friendly chinos for men made from sustainable materials.', 1, '49.99', '32x34', 'Olive', 'Sustainable Fabric', 4, 'EcoStyle', '2023-08-15', '44.99', 'no-image.png', 18),
-(56, 'Recycled Women\'s Jumpsuit', 'Eco-conscious jumpsuit for women made from recycled materials.', 2, '59.99', 'S', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-08-20', '54.99', 'no-image.png', 16),
-(57, 'Organic Cotton Women\'s Leggings', 'Eco-friendly leggings for women made from organic cotton.', 2, '34.99', 'M', 'Black', 'Organic Cotton', 4, 'EcoStyle', '2023-08-25', '29.99', 'no-image.png', 6),
-(58, 'Sustainable Men\'s Sneakers', 'Comfortable and eco-friendly sneakers for men made from sustainable materials.', 3, '59.99', 'US 9', 'Gray', 'Sustainable Fabric', 4, 'EcoFootwear', '2023-08-30', '54.99', 'no-image.png', 20);
+(1, 'Organic Cotton Men\'s T-Shirt', 'A comfortable and sustainable organic cotton t-shirt for men.', 5, 28.99, 'M', 'White', 'Organic Cotton', 4, 'EcoWear', '2025-11-01', 25.99, '1_1.png', 11),
+(2, 'Recycled Denim Jeans', 'Stylish jeans made from recycled denim material.', 6, 79.99, '32x34', 'Blue', 'Recycled Denim', 5, 'GreenFashion', '2025-09-15', 69.99, '2_1.png', 14),
+(3, 'Women\'s Eco-Friendly Dress', 'A beautiful and eco-friendly dress for women made from sustainable materials.', 7, 59.99, 'S', 'Green', 'Sustainable Fabric', 4, 'SustainStyle', '2025-11-10', 49.99, '3_1.png', 14),
+(4, 'Organic Men\'s Jacket', 'A warm and sustainable jacket for men made from organic materials.', 8, 99.99, 'L', 'Black', 'Organic Cotton', 4, 'EcoWear', '2025-10-20', 89.99, '4_1.png', 6),
+(5, 'Recycled Sneakers', 'Stylish sneakers made from recycled materials.', 9, 49.99, 'US 9', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2024-02-28', 44.99, '5_1.png', 9),
+(6, 'Sustainable Sun Hat', 'A sustainable sun hat made from eco-friendly materials.', 10, 19.99, 'One Size', 'Beige', 'Sustainable Straw', 4, 'SustainStyle', '2023-04-05', 16.99, '6_1.png', 8),
+(7, 'Organic Cotton Women\'s T-Shirt', 'A comfortable and sustainable organic cotton t-shirt for women.', 5, 27.99, 'S', 'Pink', 'Organic Cotton', 4, 'EcoWear', '2023-03-03', 22.99, '7_1.png', 12),
+(8, 'Recycled Men\'s Jeans', 'Eco-friendly jeans made from recycled denim material.', 6, 55.00, '34x36', 'Dark Blue', 'Recycled Denim', 5, 'GreenFashion', '2025-07-10', 59.99, '8_1.png', 15),
+(9, 'Sustainable Women\'s Blouse', 'A stylish and sustainable blouse for women made from eco-friendly materials.', 2, 49.99, 'M', 'White', 'Sustainable Fabric', 4, 'SustainStyle', '2023-03-15', 42.99, '9_1.png', 19),
+(10, 'Recycled Men\'s Jacket', 'Warm and eco-friendly jacket made from recycled materials.', 8, 89.99, 'XL', 'Navy', 'Recycled Fabric', 5, 'GreenFashion', '2023-01-25', 79.99, '10_1.png', 11),
+(11, 'Bamboo Fiber Men\'s Polo Shirt', 'A comfortable and eco-friendly polo shirt for men made from bamboo fiber.', 1, 39.99, 'L', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-04-10', 34.99, '11_1.png', 18),
+(12, 'Recycled Women\'s Skirt', 'Stylish skirt for women made from recycled materials.', 2, 49.99, 'M', 'Purple', 'Recycled Fabric', 4, 'GreenFashion', '2025-08-20', 44.99, '12_1.png', 14),
+(13, 'Organic Hemp Shoes', 'Eco-conscious shoes made from organic hemp material.', 3, 59.99, 'US 8', 'Natural', 'Organic Hemp', 5, 'EcoFootwear', '2023-03-05', 54.99, '13_1.png', 17),
+(14, 'Sustainable Men\'s Cardigan', 'A sustainable cardigan for men made from eco-friendly materials.', 1, 69.99, 'XL', 'Navy', 'Sustainable Fabric', 4, 'EcoWear', '2023-02-25', 64.99, '14_1.png', 2),
+(15, 'Recycled PET Backpack', 'Eco-conscious backpack made from recycled PET bottles.', 4, 29.99, 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-04-01', 24.99, '15_1.png', 17),
+(16, 'Sustainable Linen Women\'s Pants', 'Comfortable and eco-friendly linen pants for women.', 2, 44.99, 'S', 'Beige', 'Organic Linen', 4, 'EcoStyle', '2023-03-15', 39.99, '16_1.png', 1),
+(17, 'Recycled Men\'s Hoodie', 'Stylish hoodie for men made from recycled materials.', 1, 59.99, 'M', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2023-03-08', 54.99, '17_1.png', 11),
+(18, 'Organic Cotton Women\'s Sweater', 'A cozy and eco-friendly sweater for women made from organic cotton.', 2, 54.99, 'L', 'Blue', 'Organic Cotton', 4, 'EcoWear', '2023-02-28', 49.99, '18_1.png', 11),
+(19, 'Bamboo Fiber Men\'s Shorts', 'Comfortable and eco-friendly shorts for men made from bamboo fiber.', 1, 34.99, 'S', 'Black', 'Bamboo Fiber', 5, 'EcoStyle', '2023-03-12', 29.99, 'no-image.png', 2),
+(20, 'Recycled Women\'s Sweater', 'Stylish sweater for women made from recycled materials.', 2, 54.99, 'M', 'Gray', 'Recycled Fabric', 4, 'GreenFashion', '2023-03-03', 49.99, 'no-image.png', 19),
+(21, 'Recycled PET Women\'s Jacket', 'Stylish jacket for women made from recycled PET bottles.', 8, 79.99, 'S', 'Black', 'Recycled PET', 5, 'GreenFashion', '2023-04-18', 74.99, 'no-image.png', 5),
+(22, 'Organic Linen Men\'s Shirt', 'Comfortable and eco-friendly linen shirt for men.', 1, 44.99, 'M', 'White', 'Organic Linen', 4, 'EcoStyle', '2023-04-05', 39.99, 'no-image.png', 11),
+(23, 'Sustainable Women\'s Sandals', 'Eco-conscious sandals made from sustainable materials.', 3, 39.99, 'US 7', 'Brown', 'Sustainable Fabric', 4, 'EcoFootwear', '2023-04-25', 34.99, 'no-image.png', 18),
+(24, 'Recycled Men\'s Belt', 'Stylish belt for men made from recycled materials.', 4, 19.99, 'One Size', 'Black', 'Recycled Leather', 4, 'GreenFashion', '2023-04-14', 14.99, 'no-image.png', 15),
+(25, 'Organic Cotton Women\'s Blouse', 'A sustainable blouse for women made from organic cotton.', 2, 49.99, 'L', 'Red', 'Organic Cotton', 4, 'EcoWear', '2023-04-08', 44.99, 'no-image.png', 3),
+(26, 'Recycled Denim Women\'s Jacket', 'Stylish jacket for women made from recycled denim material.', 8, 69.99, 'S', 'Denim Blue', 'Recycled Denim', 5, 'GreenFashion', '2023-04-21', 64.99, 'no-image.png', 8),
+(27, 'Sustainable Men\'s Beanie', 'A cozy and eco-friendly beanie for men made from sustainable materials.', 10, 24.99, 'One Size', 'Gray', 'Sustainable Fabric', 4, 'EcoStyle', '2023-04-30', 19.99, 'no-image.png', 9),
+(28, 'Organic Linen Women\'s Pants', 'Comfortable and eco-friendly linen pants for women.', 2, 44.99, 'M', 'Beige', 'Organic Linen', 4, 'EcoWear', '2023-04-16', 39.99, 'no-image.png', 1),
+(29, 'Bamboo Fiber Women\'s T-Shirt', 'A comfortable and eco-friendly t-shirt for women made from bamboo fiber.', 2, 29.99, 'S', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-04-11', 24.99, 'no-image.png', 17),
+(30, 'Recycled PET Men\'s Backpack', 'Eco-conscious backpack made from recycled PET bottles.', 4, 34.99, 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-04-09', 29.99, 'no-image.png', 3),
+(31, 'Organic Hemp Women\'s Sandals', 'Eco-conscious sandals made from organic hemp material for women.', 3, 39.99, 'US 7', 'Natural', 'Organic Hemp', 5, 'EcoFootwear', '2023-05-10', 34.99, 'no-image.png', 4),
+(32, 'Sustainable Men\'s Swim Shorts', 'Comfortable and eco-friendly swim shorts for men.', 1, 29.99, 'M', 'Blue', 'Sustainable Fabric', 4, 'EcoStyle', '2023-05-15', 24.99, 'no-image.png', 10),
+(33, 'Recycled PET Women\'s Bag', 'Stylish bag for women made from recycled PET bottles.', 4, 49.99, 'One Size', 'Gray', 'Recycled PET', 5, 'GreenFashion', '2023-05-05', 44.99, 'no-image.png', 17),
+(34, 'Organic Linen Men\'s Shorts', 'Comfortable and eco-friendly linen shorts for men.', 1, 34.99, 'L', 'Khaki', 'Organic Linen', 4, 'EcoStyle', '2023-05-18', 29.99, 'no-image.png', 15),
+(35, 'Sustainable Women\'s Scarf', 'A cozy and eco-friendly scarf for women made from sustainable materials.', 2, 19.99, 'One Size', 'Green', 'Sustainable Fabric', 4, 'EcoWear', '2023-05-08', 14.99, 'no-image.png', 2),
+(36, 'Recycled Men\'s Backpack', 'Eco-conscious backpack made from recycled materials for men.', 4, 39.99, 'One Size', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-05-20', 34.99, 'no-image.png', 7),
+(37, 'Bamboo Fiber Women\'s Leggings', 'Comfortable and eco-friendly leggings for women made from bamboo fiber.', 2, 34.99, 'S', 'Gray', 'Bamboo Fiber', 5, 'EcoStyle', '2023-05-10', 29.99, 'no-image.png', 9),
+(38, 'Recycled PET Men\'s Hat', 'Eco-conscious hat made from recycled PET bottles for men.', 10, 24.99, 'One Size', 'Navy', 'Recycled PET', 5, 'GreenFashion', '2023-05-25', 19.99, 'no-image.png', 2),
+(39, 'Organic Hemp Women\'s T-Shirt', 'A comfortable and eco-friendly t-shirt for women made from organic hemp.', 5, 29.99, 'M', 'Blue', 'Organic Hemp', 5, 'EcoStyle', '2023-05-12', 24.99, 'no-image.png', 3),
+(40, 'Sustainable Men\'s Sunglasses', 'Eco-conscious sunglasses made from sustainable materials for men.', 4, 39.99, 'One Size', 'Brown', 'Sustainable Plastic', 5, 'GreenFashion', '2023-05-30', 34.99, 'no-image.png', 8),
+(41, 'Organic Cotton Men\'s Chinos', 'Stylish and eco-friendly chinos for men made from organic cotton.', 1, 49.99, '32x32', 'Olive', 'Organic Cotton', 4, 'EcoStyle', '2023-06-05', 44.99, 'no-image.png', 9),
+(42, 'Recycled PET Women\'s Backpack', 'Eco-conscious backpack made from recycled PET bottles for women.', 4, 44.99, 'One Size', 'Teal', 'Recycled PET', 5, 'GreenFashion', '2023-06-10', 39.99, 'no-image.png', 4),
+(43, 'Sustainable Men\'s Button-Up Shirt', 'A comfortable and eco-friendly button-up shirt for men made from sustainable materials.', 1, 39.99, 'M', 'Navy', 'Sustainable Fabric', 4, 'EcoStyle', '2023-06-15', 34.99, 'no-image.png', 9),
+(44, 'Recycled Women\'s Backpack', 'Eco-conscious backpack made from recycled materials for women.', 4, 44.99, 'One Size', 'Gray', 'Recycled Fabric', 5, 'GreenFashion', '2023-06-20', 39.99, 'no-image.png', 15),
+(45, 'Organic Hemp Men\'s Shorts', 'Comfortable and eco-friendly shorts for men made from organic hemp.', 1, 34.99, 'L', 'Navy', 'Organic Hemp', 4, 'EcoStyle', '2023-06-25', 29.99, 'no-image.png', 6),
+(46, 'Sustainable Women\'s Belt', 'Stylish and eco-friendly belt for women made from sustainable materials.', 4, 24.99, 'One Size', 'Brown', 'Sustainable Fabric', 4, 'EcoWear', '2023-06-30', 19.99, 'no-image.png', 4),
+(47, 'Recycled Men\'s Trousers', 'Eco-conscious trousers for men made from recycled materials.', 1, 49.99, '34x34', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-07-05', 44.99, 'no-image.png', 2),
+(48, 'Bamboo Fiber Women\'s Tank Top', 'A comfortable and eco-friendly tank top for women made from bamboo fiber.', 2, 29.99, 'S', 'Green', 'Bamboo Fiber', 5, 'EcoStyle', '2023-07-10', 24.99, 'no-image.png', 18),
+(49, 'Recycled PET Men\'s Sandals', 'Eco-conscious sandals made from recycled PET bottles for men.', 3, 39.99, 'US 10', 'Black', 'Recycled PET', 5, 'EcoFootwear', '2023-07-15', 34.99, 'no-image.png', 3),
+(50, 'Organic Linen Women\'s Jumpsuit', 'Stylish and eco-friendly jumpsuit for women made from organic linen.', 2, 59.99, 'M', 'Beige', 'Organic Linen', 4, 'EcoStyle', '2023-07-20', 54.99, 'no-image.png', 20),
+(51, 'Recycled Men\'s Blazer', 'Eco-conscious blazer for men made from recycled materials.', 1, 69.99, 'XL', 'Charcoal', 'Recycled Fabric', 5, 'GreenFashion', '2023-07-25', 64.99, 'no-image.png', 12),
+(52, 'Sustainable Women\'s Sunglasses', 'Eco-conscious sunglasses made from sustainable materials for women.', 4, 34.99, 'One Size', 'Brown', 'Sustainable Plastic', 5, 'EcoWear', '2023-08-01', 29.99, 'no-image.png', 18),
+(53, 'Organic Cotton Men\'s Polo Shirt', 'Stylish and eco-friendly polo shirt for men made from organic cotton.', 1, 39.99, 'L', 'Navy', 'Organic Cotton', 4, 'EcoStyle', '2023-08-05', 34.99, 'no-image.png', 13),
+(54, 'Recycled PET Women\'s Hat', 'Eco-conscious hat made from recycled PET bottles for women.', 4, 24.99, 'One Size', 'Pink', 'Recycled PET', 5, 'GreenFashion', '2023-08-10', 19.99, 'no-image.png', 12),
+(55, 'Sustainable Men\'s Chinos', 'Comfortable and eco-friendly chinos for men made from sustainable materials.', 1, 49.99, '32x34', 'Olive', 'Sustainable Fabric', 4, 'EcoStyle', '2023-08-15', 44.99, 'no-image.png', 18),
+(56, 'Recycled Women\'s Jumpsuit', 'Eco-conscious jumpsuit for women made from recycled materials.', 2, 59.99, 'S', 'Black', 'Recycled Fabric', 5, 'GreenFashion', '2023-08-20', 54.99, 'no-image.png', 16),
+(57, 'Organic Cotton Women\'s Leggings', 'Eco-friendly leggings for women made from organic cotton.', 2, 34.99, 'M', 'Black', 'Organic Cotton', 4, 'EcoStyle', '2023-08-25', 29.99, 'no-image.png', 6),
+(58, 'Sustainable Men\'s Sneakers', 'Comfortable and eco-friendly sneakers for men made from sustainable materials.', 3, 59.99, 'US 9', 'Gray', 'Sustainable Fabric', 4, 'EcoFootwear', '2023-08-30', 54.99, 'no-image.png', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referrals`
+--
+
+CREATE TABLE `referrals` (
+  `referral_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `referral_code` varchar(50) NOT NULL,
+  `status` enum('Sent','Registered','Used') NOT NULL DEFAULT 'Sent',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referrals`
+--
+
+INSERT INTO `referrals` (`referral_id`, `customer_id`, `email`, `referral_code`, `status`, `created_at`) VALUES
+(2, 1, 'robertoconnolly100@gmail.com', '041d4018ce', 'Used', '2025-11-27 00:22:55'),
+(3, 1, 'biher33216@bablace.com', '894247', 'Sent', '2025-11-27 01:49:10');
 
 -- --------------------------------------------------------
 
@@ -849,14 +910,14 @@ INSERT INTO `products` (`product_id`, `product_name`, `description`, `category_i
 --
 
 CREATE TABLE `reviews` (
-  `review_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL,
-  `review_text` text DEFAULT NULL,
+  `review_id` int NOT NULL,
+  `customer_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `rating` int DEFAULT NULL,
+  `review_text` text,
   `review_date` date DEFAULT NULL,
   `flagged_as_spam` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `reviews`
@@ -952,7 +1013,6 @@ INSERT INTO `reviews` (`review_id`, `customer_id`, `product_id`, `rating`, `revi
 (87, 38, 3, 3, 'Product quality is okay, but could be better.', '2023-08-09', 0),
 (88, 14, 50, 2, 'Not what I expected. A letdown in terms of quality.', '2023-08-10', 0),
 (89, 8, 47, 4, 'Sustainable choices made in this product are appreciated.', '2023-08-11', 0),
-(90, 1, 33, 5, 'Outstanding commitment to the environment. Impressed.', '2023-08-12', 0),
 (91, 19, 55, 2, 'Product doesn\'t meet my expectations', '2023-08-12', 0),
 (101, 17, 17, 4, 'Nice product, but could offer more color options.', '2023-08-23', 0),
 (102, 36, 36, 3, 'Good, but sizing could be more accurate.', '2023-08-24', 0),
@@ -983,7 +1043,13 @@ INSERT INTO `reviews` (`review_id`, `customer_id`, `product_id`, `rating`, `revi
 (127, 44, 56, 4, 'I appreciate the sustainable choices made in this product.', '2023-09-18', 0),
 (128, 24, 49, 1, 'Awful awful product. Don\'t make the same mistake I did.', '2023-09-19', 0),
 (129, 13, 21, 4, 'Nice product, but could offer more color options.', '2023-09-20', 0),
-(130, 22, 30, 3, 'Good, but sizing could be more accurate.', '2023-09-21', 0);
+(130, 22, 30, 3, 'Good, but sizing could be more accurate.', '2023-09-21', 0),
+(131, 1, 7, 2, 'Shirt was dirty...', '2025-11-26', 0),
+(132, 1, 7, 5, 'Great shirt!', '2025-11-26', 0),
+(133, 1, 8, 5, 'Great', '2025-11-26', 0),
+(134, 1, 10, 5, 'Nice jacket!', '2025-11-26', 0),
+(135, 1, 10, 5, 'Great', '2025-11-26', 0),
+(136, 1, 5, 4, 'Great shoes!', '2025-11-26', 0);
 
 -- --------------------------------------------------------
 
@@ -992,15 +1058,15 @@ INSERT INTO `reviews` (`review_id`, `customer_id`, `product_id`, `rating`, `revi
 --
 
 CREATE TABLE `suppliers` (
-  `supplier_id` int(11) NOT NULL,
+  `supplier_id` int NOT NULL,
   `supplier_name` varchar(100) DEFAULT NULL,
   `contact_name` varchar(100) DEFAULT NULL,
   `contact_email` varchar(100) DEFAULT NULL,
   `contact_phone` varchar(20) DEFAULT NULL,
-  `address` text DEFAULT NULL,
+  `address` text,
   `website` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `suppliers`
@@ -1035,21 +1101,20 @@ INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `contact_name`, `contac
 --
 
 CREATE TABLE `wishlist` (
-  `wishlist_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
+  `wishlist_id` int NOT NULL,
+  `customer_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
   `added_date` date DEFAULT NULL,
   `wishlist_name` varchar(100) DEFAULT NULL,
-  `notes` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `notes` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `wishlist`
 --
 
 INSERT INTO `wishlist` (`wishlist_id`, `customer_id`, `product_id`, `added_date`, `wishlist_name`, `notes`) VALUES
-(1, 33, 12, '2023-10-11', 'Lauras Xmas Present List', 'Make sure to check the sizes for Dad'),
-(2, 67, 28, '2023-10-12', 'Dylans List', NULL),
+(1, 1, 12, '2023-10-11', 'Lauras Xmas Present List', 'Make sure to check the sizes for Dad'),
 (3, 102, 41, '2023-10-13', NULL, NULL),
 (4, 9, 1, '2023-10-14', NULL, NULL),
 (5, 79, 17, '2023-10-15', 'Sorchas', NULL),
@@ -1086,11 +1151,21 @@ INSERT INTO `wishlist` (`wishlist_id`, `customer_id`, `product_id`, `added_date`
 (36, 13, 51, '2023-11-16', NULL, NULL),
 (37, 146, 29, '2023-11-17', NULL, NULL),
 (38, 19, 37, '2023-11-18', NULL, NULL),
-(39, 2, 53, '2024-02-27', 'Aoifes Christmas List 2024', 'Need to start putting money away for Christmas!!');
+(39, 2, 53, '2024-02-27', 'Aoifes Christmas List 2024', 'Need to start putting money away for Christmas!!'),
+(40, 1, 37, '2023-10-02', 'Summer wish', 'Buy these leggings in April'),
+(42, 1, 13, '2025-11-26', NULL, NULL),
+(45, 1, 1, '2025-11-26', NULL, 'Buy these leggings in April');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`address_id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `categories`
@@ -1145,6 +1220,15 @@ ALTER TABLE `products`
   ADD KEY `fk_supplier` (`supplier_Id`);
 
 --
+-- Indexes for table `referrals`
+--
+ALTER TABLE `referrals`
+  ADD PRIMARY KEY (`referral_id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `referral_code` (`referral_code`),
+  ADD KEY `fk_ref_customer` (`customer_id`);
+
+--
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -1171,14 +1255,62 @@ ALTER TABLE `wishlist`
 --
 
 --
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `address_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `customer_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+
+--
 -- AUTO_INCREMENT for table `db_metadata`
 --
 ALTER TABLE `db_metadata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+
+--
+-- AUTO_INCREMENT for table `referrals`
+--
+ALTER TABLE `referrals`
+  MODIFY `referral_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `review_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+
+--
+-- AUTO_INCREMENT for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `wishlist_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
 
 --
 -- Constraints for table `inventory`
@@ -1191,8 +1323,14 @@ ALTER TABLE `inventory`
 -- Constraints for table `orderitems`
 --
 ALTER TABLE `orderitems`
-  ADD CONSTRAINT `orderitems_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  ADD CONSTRAINT `orderitems_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `orderitems_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
 
 --
 -- Constraints for table `products`
@@ -1200,6 +1338,12 @@ ALTER TABLE `orderitems`
 ALTER TABLE `products`
   ADD CONSTRAINT `fk_supplier` FOREIGN KEY (`supplier_Id`) REFERENCES `suppliers` (`supplier_id`),
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+
+--
+-- Constraints for table `referrals`
+--
+ALTER TABLE `referrals`
+  ADD CONSTRAINT `fk_ref_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `reviews`
@@ -1219,20 +1363,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- NEW TABLES
-
-CREATE TABLE addresses (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
-    full_name VARCHAR(255),
-    address_line_1 VARCHAR(255),
-    address_line_2 VARCHAR(255),
-    city VARCHAR(255),
-    postal_code VARCHAR(50),
-    country VARCHAR(255),
-    phone_number VARCHAR(50),
-    is_default BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-);
-
