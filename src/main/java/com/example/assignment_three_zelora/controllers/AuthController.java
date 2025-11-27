@@ -31,7 +31,13 @@ public class AuthController {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(HttpSession session) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer != null) {
+            return "redirect:/account";
+        }
+
         return "login";
     }
 
@@ -61,16 +67,21 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("customer", new Customer());
+    public String registerPage(Model model, HttpSession session) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer != null) {
+            return "redirect:/account";
+        }
+
+        model.addAttribute("new_customer", new Customer());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerCustomer(@Valid @ModelAttribute Customer customer,
+    public String registerCustomer(@Valid @ModelAttribute("new_customer") Customer customer,
                                    BindingResult result,
-                                   @RequestParam(required = false)
-                                   String referralCode,
+                                   @RequestParam(required = false) String referralCode,
                                    Model model) {
 
         if (result.hasErrors()) {
