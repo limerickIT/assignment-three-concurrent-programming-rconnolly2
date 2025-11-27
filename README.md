@@ -73,8 +73,7 @@ The main functionalities implemented are:
 - Referrals system
 - Wishlist and address management
 
-Insert Introduction Screenshot Here:  
-![INTRO_IMAGE](images/introduction_placeholder.png)
+![Package diagram](https://github.com/limerickIT/assignment-three-concurrent-programming-rconnolly2/blob/main/src/main/resources/static/images/readme/package-diagram.png?raw=true)
 
 ---
 
