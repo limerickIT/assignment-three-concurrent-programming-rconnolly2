@@ -18,14 +18,6 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
-    }
-
-    public Customer getCustomerById(Integer id) {
-        return customerRepository.findById(id).orElse(null);
-    }
-
     public Customer getCustomerByEmail(String email) {
         return customerRepository.getCustomersByEmail(email);
     }
@@ -36,9 +28,5 @@ public class CustomerService {
         }
         updatedCustomer.setCustomerId(id);
         return customerRepository.save(updatedCustomer);
-    }
-
-    public void deleteCustomer(Integer id) {
-        customerRepository.deleteById(id);
     }
 }

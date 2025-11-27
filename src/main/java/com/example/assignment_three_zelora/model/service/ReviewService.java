@@ -18,10 +18,6 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
-    }
-
     public Review getReviewById(Integer id) {
         return reviewRepository.findById(id).orElse(null);
     }

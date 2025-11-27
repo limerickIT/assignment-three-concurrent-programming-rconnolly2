@@ -19,27 +19,11 @@ public class OrdersService {
         return ordersRepository.save(order);
     }
 
-    public List<Orders> getAllOrders() {
-        return ordersRepository.findAll();
-    }
-
-    public Orders getOrderById(Integer id) {
-        return ordersRepository.findById(id).orElse(null);
-    }
-
     public List<Orders> getOrdersByCustomer(Customer customer) {
         return ordersRepository.getOrdersByCustomerId(customer);
     }
 
-    public List<Orders> getOrdersByStatus(String status) {
-        return ordersRepository.getOrdersByOrderStatus(status);
-    }
-
     public void updateOrder(Orders updatedOrder) {
         ordersRepository.save(updatedOrder);
-    }
-
-    public void deleteOrder(Integer id) {
-        ordersRepository.deleteById(id);
     }
 }
